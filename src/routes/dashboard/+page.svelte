@@ -14,6 +14,8 @@
   let reportSummary = '';
   let taskType = '';
   let closingTime = '';
+  let contactPersonName = '';
+  let customerEmail = '';
 </script>
 
 <div class="min-h-screen flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-100">
@@ -159,22 +161,69 @@
     />
   </div>
 </div>
-
-      </section>
-
-      <!-- Submit Button -->
-      <div class="text-center">
-        <button class="bg-orange-600 text-white py-3 px-8 rounded-md transition-colors focus:outline-none">
-          Submit Report
-        </button>
-      </div>
+<section class="mt-8">
+  <h3 class="font-semibold text-lg mb-4 text-gray-800">Additional Information</h3>
+  <div class="grid gap-6">
+    <!-- Contact Person Name -->
+    <div>
+      <label for="contact-person" class="block text-gray-700">Contact Person Name <span class="text-red-500">*</span></label>
+      <input
+        id="contact-person"
+        type="text"
+        bind:value={contactPersonName}
+        placeholder="Enter the contact person's name"
+        class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"
+      />
     </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-orange-600 text-white">
-    <div class="container mx-auto px-4 py-4 text-center">
-      <p>&copy; 2024 SRA BAO. All Rights Reserved.</p>
+    <!-- Customer Email ID -->
+    <div>
+      <label for="customer-email" class="block text-gray-700">Customer Email ID <span class="text-red-500">*</span></label>
+      <input
+        id="customer-email"
+        type="email"
+        bind:value={customerEmail}
+        placeholder="Enter the customer's email ID"
+        class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"
+      />
     </div>
-  </footer>
+    <!-- Service Report Document Upload -->
+    <div>
+      <label for="service-report" class="block text-gray-700">Service Report Documents <span class="text-red-500">*</span></label>
+      <input
+        id="service-report"
+        type="file"
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.mp3,.mp4,.avi,.mkv"
+        class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"
+      />
+      <p class="text-sm text-gray-500 mt-1">Upload 1 supported file: PDF, audio, document, drawing, image, presentation, spreadsheet, or video. Max 10 MB.</p>
+    </div>
+    <!-- Other Documents Upload -->
+    <div>
+      <label for="other-documents" class="block text-gray-700">Other Documents</label>
+      <input
+        id="other-documents"
+        type="file"
+        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.mp3,.mp4,.avi,.mkv"
+        class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"
+      />
+      <p class="text-sm text-gray-500 mt-1">Upload 1 supported file: PDF, audio, document, drawing, image, presentation, spreadsheet, or video. Max 10 MB.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Submit Button -->
+<div class="text-center mt-8">
+  <button class="bg-orange-600 text-white py-3 px-8 rounded-md transition-colors focus:outline-none">
+    Submit Report
+  </button>
+</div>
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-orange-600 text-white">
+<div class="container mx-auto px-4 py-4 text-center">
+<p>&copy; 2024 SRA BAO. All Rights Reserved.</p>
+</div>
+</footer>
 </div>

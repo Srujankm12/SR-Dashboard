@@ -6,7 +6,7 @@
   
     const handleLogin = () => {
       if (email && password) {
-        goto('/dashboard');
+        
       } else {
         alert('Please enter a valid email and password.');
       }
@@ -56,6 +56,7 @@
         <button
           type="submit"
           class="w-full bg-orange-600 text-white font-semibold py-3 px-4 rounded-lg shadow-lg hover:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300 transition"
+        on:click={()=>goto('/mainpage')}
         >
           Login
         </button>
