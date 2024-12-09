@@ -1,17 +1,47 @@
 <script>
     import { goto } from '$app/navigation';
-  
+    import { onMount } from 'svelte';
+
     let email = '';
     let password = '';
-  
-    const handleLogin = () => {
-      if (email && password) {
-        
-      } else {
-        alert('Please enter a valid email and password.');
-      }
+    let loading = false;
+    let errorMessage = '';
+    let showError = false;
+
+    const handleLogin = async () => {
+        loading = true;
+        showError = false;
+        errorMessage = '';
+
+        try {
+            const response = await fetch("http://localhost:8080/auth/login", {
+                method: "POST",
+                body: JSON.stringify({ email, password }),
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log("Login successful:", data);
+                goto("/login/"+data.token);
+            } else {
+                const jsonResponse = await response.json();
+                errorMessage = jsonResponse.message || 'Invalid email or password.';
+                showError = true;
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            errorMessage = 'Failed to communicate with the server. Please try again later.';
+            showError = true;
+        } finally {
+            loading = false;
+            setTimeout(() => {
+                showError = false;
+            }, 3000);
+        }
     };
-  </script>
+</script>
+
+
   
   <div class="flex justify-center items-center min-h-screen bg-gradient-to-br from-orange-100 via-white to-orange-50">
     <!-- Login Card -->
@@ -56,7 +86,7 @@
         <button
           type="submit"
           class="w-full bg-orange-600 text-white font-semibold py-3 px-4 rounded-lg shadow-lg hover:bg-orange-700 focus:outline-none focus:ring focus:ring-orange-300 transition"
-        on:click={()=>goto('/mainpage')}
+
         >
           Login
         </button>
@@ -65,7 +95,11 @@
       <!-- Footer -->
       <div class="mt-8 text-center text-sm text-gray-500">
         <p>
-          Need help? <a href="#" class="text-orange-600 font-medium hover:underline">Contact Support</a>
+          Don't have an account ? 
+          <button class="text-orange-600 font-medium hover:underline"
+          on:click={()=>goto('/register')}
+          
+          >Register</button>
         </p>
       </div>
     </div>
