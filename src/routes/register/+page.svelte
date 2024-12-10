@@ -41,7 +41,7 @@
       });
 
       if (response.ok) {
-        alert('Registration successful! Redirecting to login page...');
+    
         goto('/login');
       } else {
         const jsonResponse = await response.json();

@@ -22,7 +22,7 @@
             if (response.ok) {
                 const data = await response.json();
                 console.log("Login successful:", data);
-                goto("/login/"+data.token);
+                goto("/login/"+data.uuid);
             } else {
                 const jsonResponse = await response.json();
                 errorMessage = jsonResponse.message || 'Invalid email or password.';
