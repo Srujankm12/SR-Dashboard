@@ -14,7 +14,7 @@
         errorMessage = '';
 
         try {
-            const response = await fetch("http://localhost:8080/auth/login", {
+            const response = await fetch("http://localhost:8000/login", {
                 method: "POST",
                 body: JSON.stringify({ email, password }),
             });
@@ -22,7 +22,7 @@
             if (response.ok) {
                 const data = await response.json();
                 console.log("Login successful:", data);
-                goto("/login/"+data.uuid);
+                goto("/login/"+data.message);
             } else {
                 const jsonResponse = await response.json();
                 errorMessage = jsonResponse.message || 'Invalid email or password.';
