@@ -1,22 +1,73 @@
 <script>
-  let reportDate = '';
-  let employeeName = '';
-  let premises = 'Office';
-  let siteLocation = '';
-  let clientName = '';
-  let workScope = '';
-  let workDetails = '';
-  let jointMeetings = '';
-  let supportNeeded = '';
-  let workStatus = '';
-  let workPriority = '';
-  let actionPlan = '';
-  let reportSummary = '';
-  let taskType = '';
-  let closingTime = '';
-  let contactPersonName = '';
-  let customerEmail = '';
+  let reportDate = "";
+  let employeeName = "";
+  let premises = "Office";
+  let siteLocation = "";
+  let clientName = "";
+  let workScope = "";
+  let workDetails = "";
+  let jointMeetings = "";
+  let supportNeeded = "";
+  let workStatus = "";
+  let workPriority = "";
+  let actionPlan = "";
+  let reportSummary = "";
+  let taskType = "";
+  let closingTime = "";
+  let contactPersonName = "";
+  let customerEmail = "";
+  let doc1 = null;
+  let doc2 = null;
+
+  const submit = async () => {
+    const payload = {
+      report_date: reportDate,
+      employee_name: employeeName,
+      premises,
+      site_location: siteLocation,
+      client_name: clientName,
+      scope_of_work: workScope,
+      work_details: workDetails,
+      joint_visits: jointMeetings,
+      support_needed: supportNeeded,
+      status_of_work: workStatus,
+      priority_of_work: workPriority,
+      next_action_plan: actionPlan,
+      result: reportSummary,
+      type_of_work: taskType,
+      closing_time: closingTime,
+      contact_person_name: contactPersonName,
+      customer_emailid: customerEmail,
+    };
+
+    if (doc1 && doc2) {
+      const formData = new FormData();
+      formData.append("file1", doc1);
+      formData.append("file2", doc2);
+      formData.append("json_data", JSON.stringify(payload));
+
+      try {
+        const response = await fetch("http://localhost:8000/submit", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (response.ok) {
+          alert("Report submitted successfully!");
+        } else {
+          alert("Error submitting the report");
+          console.error("Response error:", await response.text());
+        }
+      } catch (error) {
+        alert("Network error. Please try again.");
+        console.error("Network error:", error);
+      }
+    } else {
+      alert("Please upload both required documents.");
+    }
+  };
 </script>
+
 
 <div class="min-h-screen flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-100">
   <!-- Header -->
@@ -96,7 +147,7 @@
           </div>
           <div>
             <label for="support-needed" class="block text-gray-700">Support Needed <span class="text-red-500">*</span></label>
-            <textarea id="support-needed" bind:value={supportNeeded} rows="3" placeholder="Specify any support required" class="w-full p-3 border border-gray-300 rounded-md focus:ring focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+            <textarea id="support-needed" bind:value={supportNeeded} rows="3" placeholder="Specify any support required" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
           </div>
           <div>
             <label for="work-status" class="block text-gray-700">Status of Work <span class="text-red-500">*</span></label>
@@ -117,113 +168,59 @@
             </select>
           </div>
         </div>
-        <!-- Additional Fields -->
-<div class="grid gap-6 mt-6">
-  <div>
-    <label for="action-plan" class="block text-gray-700">Next Action Plan <span class="text-red-500">*</span></label>
-    <textarea
-      id="action-plan"
-      bind:value={actionPlan}
-      rows="3"
-      placeholder="Describe the next action plan"
-      class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"
-    ></textarea>
-  </div>
-  <div>
-    <label for="report-summary" class="block text-gray-700">Result</label>
-    <textarea
-      id="report-summary"
-      bind:value={reportSummary}
-      rows="3"
-      placeholder="Provide the result or summary"
-      class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"
-    ></textarea>
-  </div>
-  <div>
-    <label class="block text-gray-700">Type of Work <span class="text-red-500">*</span></label>
-    <div class="flex items-center space-x-4 mt-2">
-      <label><input type="radio" bind:group={taskType} value="Chargeable" class="mr-2" /> Chargeable</label>
-      <label><input type="radio" bind:group={taskType} value="Non-Chargeable" class="mr-2" /> Non-Chargeable</label>
-      <label><input type="radio" bind:group={taskType} value="Projects and Services" class="mr-2" /> Projects and Services</label>
-      <label class="flex items-center">
-        <input type="radio" value="Other" class="mr-2" /> Other:
-        <input type="text"  class="ml-2 p-2 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none" />
-      </label>
-    </div>
-  </div>
-  <div>
-    <label for="closing-time" class="block text-gray-700">Closing Time <span class="text-red-500">*</span></label>
-    <input
-      id="closing-time"
-      type="time"
-      bind:value={closingTime}
-      class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"
-    />
-  </div>
-</div>
-<section class="mt-8">
-  <h3 class="font-semibold text-lg mb-4 text-gray-800">Additional Information</h3>
-  <div class="grid gap-6">
-    <!-- Contact Person Name -->
-    <div>
-      <label for="contact-person" class="block text-gray-700">Contact Person Name <span class="text-red-500">*</span></label>
-      <input
-        id="contact-person"
-        type="text"
-        bind:value={contactPersonName}
-        placeholder="Enter the contact person's name"
-        class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"
-      />
-    </div>
-    <!-- Customer Email ID -->
-    <div>
-      <label for="customer-email" class="block text-gray-700">Customer Email ID <span class="text-red-500">*</span></label>
-      <input
-        id="customer-email"
-        type="email"
-        bind:value={customerEmail}
-        placeholder="Enter the customer's email ID"
-        class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"
-      />
-    </div>
-    <!-- Service Report Document Upload -->
-    <div>
-      <label for="service-report" class="block text-gray-700">Service Report Documents <span class="text-red-500">*</span></label>
-      <input
-        id="service-report"
-        type="file"
-        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.mp3,.mp4,.avi,.mkv"
-        class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"
-      />
-      <p class="text-sm text-gray-500 mt-1">Upload 1 supported file: PDF, audio, document, drawing, image, presentation, spreadsheet, or video. Max 10 MB.</p>
-    </div>
-    <!-- Other Documents Upload -->
-    <div>
-      <label for="other-documents" class="block text-gray-700">Other Documents</label>
-      <input
-        id="other-documents"
-        type="file"
-        accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.jpg,.jpeg,.png,.mp3,.mp4,.avi,.mkv"
-        class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"
-      />
-      <p class="text-sm text-gray-500 mt-1">Upload 1 supported file: PDF, audio, document, drawing, image, presentation, spreadsheet, or video. Max 10 MB.</p>
-    </div>
-  </div>
-</section>
+      </section>
 
-<!-- Submit Button -->
-<div class="text-center mt-8">
-  <button class="bg-orange-600 text-white py-3 px-8 rounded-md transition-colors focus:outline-none">
-    Submit Report
-  </button>
-</div>
-</div>
-</main>
+      <!-- Action Plan and Summary -->
+      <section class="mb-8">
+        <div class="grid gap-6">
+          <div>
+            <label for="action-plan" class="block text-gray-700">Next Action Plan <span class="text-red-500">*</span></label>
+            <textarea id="action-plan" bind:value={actionPlan} rows="3" placeholder="Describe the next action plan" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+          </div>
+          <div>
+            <label for="report-summary" class="block text-gray-700">Result</label>
+            <textarea id="report-summary" bind:value={reportSummary} rows="3" placeholder="Provide the result or summary" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+          </div>
+        </div>
+      </section>
 
-<!-- Footer -->
-<footer class="bg-orange-600 text-white">
-<div class="container mx-auto px-4 py-4 text-center">
-<p>&copy; 2024 SRA BAO. All Rights Reserved.</p>
+      <!-- Additional Information -->
+      <section class="mb-8">
+        <h3 class="font-semibold text-lg mb-4 text-gray-800">Additional Information</h3>
+        <div class="grid gap-6">
+          <div>
+            <label for="contact-person" class="block text-gray-700">Contact Person Name <span class="text-red-500">*</span></label>
+            <input id="contact-person" type="text" bind:value={contactPersonName} placeholder="Enter the contact person's name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+          </div>
+          <div>
+            <label for="customer-email" class="block text-gray-700">Customer Email ID <span class="text-red-500">*</span></label>
+            <input id="customer-email" type="email" bind:value={customerEmail} placeholder="Enter the customer's email ID" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+          </div>
+          <div>
+            <label for="doc1" class="block text-gray-700">Document 1 <span class="text-red-500">*</span></label>
+            <input id="doc1" type="file" on:change={(e) => (doc1 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+          </div>
+          <div>
+            <label for="doc2" class="block text-gray-700">Document 2 <span class="text-red-500">*</span></label>
+            <input id="doc2" type="file" on:change={(e) => (doc2 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Submit Button -->
+      <div class="flex justify-end mt-8">
+        <button on:click={submit} class="bg-orange-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-orange-700 transition-colors">
+          Submit Report
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto text-center">
+      <p>&copy; 2024 SRA BAO. All Rights Reserved.</p>
+    </div>
+  </footer>
 </div>
-</footer>
-</div>
+
