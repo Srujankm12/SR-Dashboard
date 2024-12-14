@@ -30,7 +30,7 @@
     showError = false;
 
     try {
-      const response = await fetch("http://localhost:8080/auth/register", {
+      const response = await fetch("http://localhost:8000/register", {
         method: 'POST',
         
         body: JSON.stringify({

@@ -20,54 +20,55 @@
   let doc2 = null;
 
   const submit = async () => {
-    const payload = {
-      report_date: reportDate,
-      employee_name: employeeName,
-      premises,
-      site_location: siteLocation,
-      client_name: clientName,
-      scope_of_work: workScope,
-      work_details: workDetails,
-      joint_visits: jointMeetings,
-      support_needed: supportNeeded,
-      status_of_work: workStatus,
-      priority_of_work: workPriority,
-      next_action_plan: actionPlan,
-      result: reportSummary,
-      type_of_work: taskType,
-      closing_time: closingTime,
-      contact_person_name: contactPersonName,
-      customer_emailid: customerEmail,
-    };
+      if (!doc1 || !doc2) {
+          alert("Please upload both required documents.");
+          return;
+      }
 
-    if (doc1 && doc2) {
+      const payload = {
+          report_date: reportDate,
+          employee_name: employeeName,
+          premises,
+          site_location: siteLocation,
+          client_name: clientName,
+          scope_of_work: workScope,
+          work_details: workDetails,
+          joint_visits: jointMeetings,
+          support_needed: supportNeeded,
+          status_of_work: workStatus,
+          priority_of_work: workPriority,
+          next_action_plan: actionPlan,
+          result: reportSummary,
+          type_of_work: taskType,
+          closing_time: closingTime,
+          contact_person_name: contactPersonName,
+          customer_emailid: customerEmail,
+      };
+
       const formData = new FormData();
       formData.append("file1", doc1);
       formData.append("file2", doc2);
       formData.append("json_data", JSON.stringify(payload));
 
       try {
-        const response = await fetch("http://localhost:8000/submit", {
-          method: "POST",
-          body: formData,
-        });
+          const response = await fetch("http://localhost:8000/submit", {
+              method: "POST",
+              body: formData,
+          });
 
-        if (response.ok) {
-          alert("Report submitted successfully!");
-        } else {
-          alert("Error submitting the report");
-          console.error("Response error:", await response.text());
-        }
-      } catch (error) {
-        alert("Network error. Please try again.");
-        console.error("Network error:", error);
+          if (response.ok) {
+              alert("Report submitted successfully!");
+          } else {
+              const errorText = await response.text();
+              console.error("Response error:", errorText);
+              alert(`Error submitting the report: ${errorText}`);
+          }
+      } catch (err) {
+          console.error("Network error:", err);
+          alert("Network error. Please try again.");
       }
-    } else {
-      alert("Please upload both required documents.");
-    }
   };
 </script>
-
 
 <div class="min-h-screen flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-100">
   <!-- Header -->
@@ -209,7 +210,10 @@
 
       <!-- Submit Button -->
       <div class="flex justify-end mt-8">
-        <button on:click={submit} class="bg-orange-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-orange-700 transition-colors">
+        <button on:click={submit} class="bg-orange-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-orange-700 transition-colors"
+    
+        >
+        
           Submit Report
         </button>
       </div>
