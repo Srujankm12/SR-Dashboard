@@ -34,9 +34,9 @@
         method: 'POST',
         
         body: JSON.stringify({
-          email: email,
-          newpassword: password,
-          confirmpassword: confirmPassword
+          "email": email,
+          "password": password,
+          "confirm_password": confirmPassword
         })
       });
 

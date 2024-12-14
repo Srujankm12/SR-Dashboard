@@ -1,5 +1,5 @@
 {
-	"name": "sr",
+	"name": "y",
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
@@ -20,5 +20,9 @@
 		"svelte": "^5.0.0",
 		"tailwindcss": "^3.4.16",
 		"vite": "^6.0.0"
-	}
+	},
+	"description": "Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).",
+	"main": "postcss.config.js",
+	"author": "",
+	"license": "ISC"
 }

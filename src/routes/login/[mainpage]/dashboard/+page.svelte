@@ -1,4 +1,5 @@
 <script>
+  import { page } from '$app/stores';
   let reportDate = "";
   let employeeName = "";
   let premises = "Office";
@@ -26,6 +27,7 @@
       }
 
       const payload = {
+          user_id: $page.params.mainpage,
           report_date: reportDate,
           employee_name: employeeName,
           premises,
@@ -42,7 +44,7 @@
           type_of_work: taskType,
           closing_time: closingTime,
           contact_person_name: contactPersonName,
-          customer_emailid: customerEmail,
+          contact_emailid: customerEmail,
       };
 
       const formData = new FormData();
@@ -106,6 +108,7 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
+            <!-- svelte-ignore a11y_label_has_associated_control -->
             <label class="block text-gray-700">Premises <span class="text-red-500">*</span></label>
             <div class="flex items-center space-x-4 mt-2">
               <label><input type="radio" bind:group={premises} value="Office" class="mr-2" /> Office</label>
