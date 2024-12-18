@@ -17,6 +17,7 @@
   let closingTime = "";
   let contactPersonName = "";
   let customerEmail = "";
+  let typeOfWork = "";
   let doc1 = null;
   let doc2 = null;
 
@@ -41,7 +42,7 @@
           priority_of_work: workPriority,
           next_action_plan: actionPlan,
           result: reportSummary,
-          type_of_work: taskType,
+          type_of_work: typeOfWork,
           closing_time: closingTime,
           contact_person_name: contactPersonName,
           contact_emailid: customerEmail,
@@ -179,14 +180,42 @@
         <div class="grid gap-6">
           <div>
             <label for="action-plan" class="block text-gray-700">Next Action Plan <span class="text-red-500">*</span></label>
-            <textarea id="action-plan" bind:value={actionPlan} rows="3" placeholder="Describe the next action plan" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+            <textarea
+              id="action-plan"
+              bind:value={actionPlan}
+              rows="3"
+              placeholder="Describe the next action plan"
+              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
           </div>
           <div>
             <label for="report-summary" class="block text-gray-700">Result</label>
-            <textarea id="report-summary" bind:value={reportSummary} rows="3" placeholder="Provide the result or summary" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+            <textarea
+              id="report-summary"
+              bind:value={reportSummary}
+              rows="3"
+              placeholder="Provide the result or summary"
+              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+          </div>
+          <div>
+            <label for="closing-time" class="block text-gray-700">Closing Time</label>
+            <input
+              id="closing-time"
+              type="time"
+              bind:value={closingTime}
+              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+          </div>
+          <div>
+            <label for="type-of-work" class="block text-gray-700">Type of Work</label>
+            <input
+              id="type-of-work"
+              type="text"
+              bind:value={typeOfWork}
+              placeholder="Enter type of work (e.g., technical, administrative)"
+              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
           </div>
         </div>
       </section>
+      
 
       <!-- Additional Information -->
       <section class="mb-8">
