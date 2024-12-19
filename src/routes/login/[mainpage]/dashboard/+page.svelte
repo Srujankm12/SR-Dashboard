@@ -1,5 +1,6 @@
 <script>
   import { page } from '$app/stores';
+
   let reportDate = "";
   let employeeName = "";
   let premises = "Office";
@@ -21,57 +22,106 @@
   let doc1 = null;
   let doc2 = null;
 
+  let successMessage = "";
+  let errorMessage = "";
+
+  const resetForm = () => {
+    reportDate = "";
+    employeeName = "";
+    premises = "Office";
+    siteLocation = "";
+    clientName = "";
+    workScope = "";
+    workDetails = "";
+    jointMeetings = "";
+    supportNeeded = "";
+    workStatus = "";
+    workPriority = "";
+    actionPlan = "";
+    reportSummary = "";
+    taskType = "";
+    closingTime = "";
+    contactPersonName = "";
+    customerEmail = "";
+    typeOfWork = "";
+    doc1 = null;
+    doc2 = null;
+  };
+
   const submit = async () => {
-      if (!doc1 || !doc2) {
-          alert("Please upload both required documents.");
-          return;
+    if (!doc1 || !doc2) {
+      errorMessage = "Please upload both required documents.";
+      setTimeout(() => (errorMessage = ""), 3000);
+      return;
+    }
+
+    const payload = {
+      user_id: $page.params.mainpage,
+      report_date: reportDate,
+      employee_name: employeeName,
+      premises,
+      site_location: siteLocation,
+      client_name: clientName,
+      scope_of_work: workScope,
+      work_details: workDetails,
+      joint_visits: jointMeetings,
+      support_needed: supportNeeded,
+      status_of_work: workStatus,
+      priority_of_work: workPriority,
+      next_action_plan: actionPlan,
+      result: reportSummary,
+      type_of_work: typeOfWork,
+      closing_time: closingTime,
+      contact_person_name: contactPersonName,
+      contact_emailid: customerEmail,
+    };
+
+    const formData = new FormData();
+    formData.append("file1", doc1);
+    formData.append("file2", doc2);
+    formData.append("json_data", JSON.stringify(payload));
+
+    try {
+      const response = await fetch("http://localhost:8000/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        resetForm(); // Clear all form fields
+        successMessage = "Report submitted successfully!";
+        setTimeout(() => (successMessage = ""), 6000);
+        location.reload(); // Refresh the page
+      } else {
+        const errorText = await response.text();
+        errorMessage = `Error submitting the report: ${errorText}`;
+        setTimeout(() => (errorMessage = ""), 3000);
       }
-
-      const payload = {
-          user_id: $page.params.mainpage,
-          report_date: reportDate,
-          employee_name: employeeName,
-          premises,
-          site_location: siteLocation,
-          client_name: clientName,
-          scope_of_work: workScope,
-          work_details: workDetails,
-          joint_visits: jointMeetings,
-          support_needed: supportNeeded,
-          status_of_work: workStatus,
-          priority_of_work: workPriority,
-          next_action_plan: actionPlan,
-          result: reportSummary,
-          type_of_work: typeOfWork,
-          closing_time: closingTime,
-          contact_person_name: contactPersonName,
-          contact_emailid: customerEmail,
-      };
-
-      const formData = new FormData();
-      formData.append("file1", doc1);
-      formData.append("file2", doc2);
-      formData.append("json_data", JSON.stringify(payload));
-
-      try {
-          const response = await fetch("http://localhost:8000/submit", {
-              method: "POST",
-              body: formData,
-          });
-
-          if (response.ok) {
-              alert("Report submitted successfully!");
-          } else {
-              const errorText = await response.text();
-              console.error("Response error:", errorText);
-              alert(`Error submitting the report: ${errorText}`);
-          }
-      } catch (err) {
-          console.error("Network error:", err);
-          alert("Network error. Please try again.");
-      }
+    } catch (err) {
+      errorMessage = "Failed to communicate with the server. Please try again later.";
+      setTimeout(() => (errorMessage = ""), 3000);
+    }
   };
 </script>
+
+<div class="relative">
+  {#if successMessage}
+    <div class="fixed bottom-4 right-4 bg-orange-500 text-white px-4 py-2 rounded shadow-lg">
+      {successMessage}
+    </div>
+  {/if}
+
+  {#if errorMessage}
+    <div class="fixed bottom-4 right-4 bg-white text-orange-500 border border-orange-500 px-4 py-2 rounded shadow-lg">
+      {errorMessage}
+    </div>
+  {/if}
+
+  <!-- Form Contents -->
+</div>
+
+
+
 
 <div class="min-h-screen flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-100">
   <!-- Header -->
@@ -253,8 +303,8 @@
   </main>
 
   <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-6">
-    <div class="container mx-auto text-center">
+  <footer class="bg-orange-600 text-white py-4 shadow-inner">
+    <div class="container mx-auto px-4 text-center text-sm">
       <p>&copy; 2024 SRA BAO. All Rights Reserved.</p>
     </div>
   </footer>
