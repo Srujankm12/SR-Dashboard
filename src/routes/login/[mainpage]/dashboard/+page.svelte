@@ -125,17 +125,18 @@
 
 <div class="min-h-screen flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-100">
   <!-- Header -->
-  <header class="bg-orange-600 text-white shadow-lg">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+  <header class="bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+      <!-- Logo and Branding -->
       <div class="flex items-center space-x-4">
-        <img src="/logo.jpeg" alt="SRA BAO Logo" class="w-10 h-10 rounded-full" />
-        <h1 class="text-2xl font-bold">SRA BAO Daily Report</h1>
+        <img src="/logo.jpeg" alt="SRA BAO Logo" class="w-16 h-16 rounded-full border-4 border-white shadow-md" />
+        <div>
+          <h1 class="text-3xl font-extrabold leading-tight tracking-wide">SRA BAO</h1>
+          <p class="text-sm font-medium opacity-90">Daily Reporting System</p>
+        </div>
       </div>
-      <nav class="space-x-4">
-        <a href="/" class="hover:underline">Home</a>
-        <a href="/team" class="hover:underline">Team</a>
-        <a href="/contact" class="hover:underline">Contact</a>
-      </nav>
+  
+     
     </div>
   </header>
 
