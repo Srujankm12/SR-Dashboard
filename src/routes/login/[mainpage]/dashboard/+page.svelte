@@ -1,5 +1,6 @@
 <script>
   import { page } from '$app/stores';
+	import Header from '$lib/header.svelte';
 
   let reportDate = "";
   let employeeName = "";
@@ -88,10 +89,10 @@
       });
 
       if (response.ok) {
-        resetForm(); // Clear all form fields
+        resetForm(); 
         successMessage = "Report submitted successfully!";
         setTimeout(() => (successMessage = ""), 6000);
-        location.reload(); // Refresh the page
+        location.reload(); 
       } else {
         const errorText = await response.text();
         errorMessage = `Error submitting the report: ${errorText}`;
@@ -106,61 +107,57 @@
 
 <div class="relative">
   {#if successMessage}
-    <div class="fixed bottom-4 right-4 bg-orange-500 text-white px-4 py-2 rounded shadow-lg">
+    <div class="fixed bottom-4 right-4 black text-white px-4 py-2 rounded shadow-lg">
       {successMessage}
     </div>
   {/if}
 
   {#if errorMessage}
-    <div class="fixed bottom-4 right-4 bg-white text-orange-500 border border-orange-500 px-4 py-2 rounded shadow-lg">
+    <div class="fixed bottom-4 right-4 bg-white text-black border border-black px-4 py-2 rounded shadow-lg">
       {errorMessage}
     </div>
   {/if}
 
-  <!-- Form Contents -->
+
 </div>
 
 
 
+<div class="min-h-screen flex flex-col bg-white text-gray-900">
 
-<div class="min-h-screen flex flex-col bg-gradient-to-br from-orange-50 via-white to-orange-100">
-  <!-- Header -->
-  <header class="bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg">
-    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
-      <!-- Logo and Branding -->
-      <div class="flex items-center space-x-4">
-        <img src="/logo.jpeg" alt="SRA BAO Logo" class="w-16 h-16 rounded-full border-4 border-white shadow-md" />
+  <header class="bg-black text-white shadow-md py-3 rounded-b-sm">
+    <div class="container mx-auto px-6 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <img src="/logo.jpeg" alt="SRA BAO Logo" class="w-12 h-12 rounded-full border-2 border-white shadow-sm" />
         <div>
-          <h1 class="text-3xl font-extrabold leading-tight tracking-wide">SRA BAO</h1>
-          <p class="text-sm font-medium opacity-90">Daily Reporting System</p>
+          <h1 class="text-xl font-bold tracking-wide">SRA BAO</h1>
+          <p class="text-xs opacity-80">Daily Reporting System</p>
         </div>
       </div>
-  
-     
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="flex-grow container mx-auto p-8">
-    <div class="bg-white shadow-2xl rounded-lg p-8 border-t-4 border-orange-500">
-      <h2 class="text-2xl font-semibold mb-6 text-orange-600">Technical Team Daily Report Form</h2>
 
-      <!-- Basic Information -->
+  <main class="flex-grow container mx-auto p-8">
+    <div class="bg-white shadow-2xl rounded-lg p-8 border-t-4 border-black">
+      <h2 class="text-2xl font-semibold mb-6 text-black">Technical Team Daily Report Form</h2>
+
+
       <section class="mb-8">
         <h3 class="font-semibold text-lg mb-4 text-gray-800">Basic Information</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label for="report-date" class="block text-gray-700">Report Date <span class="text-red-500">*</span></label>
-            <input id="report-date" type="date" bind:value={reportDate} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+            <input id="report-date" type="date" bind:value={reportDate} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
             <label for="employee-name" class="block text-gray-700">Employee Name <span class="text-red-500">*</span></label>
-            <input id="employee-name" type="text" bind:value={employeeName} placeholder="Enter employee name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+            <input id="employee-name" type="text" bind:value={employeeName} placeholder="Enter employee name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
-            <!-- svelte-ignore a11y_label_has_associated_control -->
+
             <label class="block text-gray-700">Premises <span class="text-red-500">*</span></label>
             <div class="flex items-center space-x-4 mt-2">
               <label><input type="radio" bind:group={premises} value="Office" class="mr-2" /> Office</label>
@@ -169,45 +166,45 @@
           </div>
           <div>
             <label for="site-location" class="block text-gray-700">Site Location</label>
-            <input id="site-location" type="text" bind:value={siteLocation} placeholder="Enter site location" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+            <input id="site-location" type="text" bind:value={siteLocation} placeholder="Enter site location" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
         </div>
       </section>
 
-      <!-- Work Details -->
+
       <section class="mb-8">
         <h3 class="font-semibold text-lg mb-4 text-gray-800">Work Details</h3>
         <div class="grid gap-6">
           <div>
             <label for="client-name" class="block text-gray-700">Client Name <span class="text-red-500">*</span></label>
-            <input id="client-name" type="text" bind:value={clientName} placeholder="Enter client or work name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+            <input id="client-name" type="text" bind:value={clientName} placeholder="Enter client or work name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
             <label for="work-scope" class="block text-gray-700">Scope of Work <span class="text-red-500">*</span></label>
-            <textarea id="work-scope" bind:value={workScope} rows="3" placeholder="Define the scope of work" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+            <textarea id="work-scope" bind:value={workScope} rows="3" placeholder="Define the scope of work" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
           <div>
             <label for="work-details" class="block text-gray-700">Work Details <span class="text-red-500">*</span></label>
-            <textarea id="work-details" bind:value={workDetails} rows="3" placeholder="Provide details of the work" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+            <textarea id="work-details" bind:value={workDetails} rows="3" placeholder="Provide details of the work" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
         </div>
       </section>
 
-      <!-- Additional Details -->
+
       <section class="mb-8">
         <h3 class="font-semibold text-lg mb-4 text-gray-800">Additional Details</h3>
         <div class="grid gap-6">
           <div>
             <label for="joint-meetings" class="block text-gray-700">Joint Visits/Meetings</label>
-            <textarea id="joint-meetings" bind:value={jointMeetings} rows="3" placeholder="Enter details of meetings or joint visits" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+            <textarea id="joint-meetings" bind:value={jointMeetings} rows="3" placeholder="Enter details of meetings or joint visits" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
           <div>
             <label for="support-needed" class="block text-gray-700">Support Needed <span class="text-red-500">*</span></label>
-            <textarea id="support-needed" bind:value={supportNeeded} rows="3" placeholder="Specify any support required" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+            <textarea id="support-needed" bind:value={supportNeeded} rows="3" placeholder="Specify any support required" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
           <div>
             <label for="work-status" class="block text-gray-700">Status of Work <span class="text-red-500">*</span></label>
-            <select id="work-status" bind:value={workStatus} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors">
+            <select id="work-status" bind:value={workStatus} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors">
               <option value="">Select status</option>
               <option value="Pending">Pending</option>
               <option value="Completed">Completed</option>
@@ -216,7 +213,7 @@
           </div>
           <div>
             <label for="work-priority" class="block text-gray-700">Priority of Work <span class="text-red-500">*</span></label>
-            <select id="work-priority" bind:value={workPriority} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors">
+            <select id="work-priority" bind:value={workPriority} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors">
               <option value="">Select priority</option>
               <option value="High">High</option>
               <option value="Medium">Medium</option>
@@ -226,7 +223,7 @@
         </div>
       </section>
 
-      <!-- Action Plan and Summary -->
+
       <section class="mb-8">
         <div class="grid gap-6">
           <div>
@@ -236,7 +233,7 @@
               bind:value={actionPlan}
               rows="3"
               placeholder="Describe the next action plan"
-              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
           <div>
             <label for="report-summary" class="block text-gray-700">Result</label>
@@ -245,7 +242,7 @@
               bind:value={reportSummary}
               rows="3"
               placeholder="Provide the result or summary"
-              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors"></textarea>
+              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
           <div>
             <label for="closing-time" class="block text-gray-700">Closing Time</label>
@@ -253,7 +250,7 @@
               id="closing-time"
               type="time"
               bind:value={closingTime}
-              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
             <label for="type-of-work" class="block text-gray-700">Type of Work</label>
@@ -262,38 +259,38 @@
               type="text"
               bind:value={typeOfWork}
               placeholder="Enter type of work (e.g., technical, administrative)"
-              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
         </div>
       </section>
       
 
-      <!-- Additional Information -->
+
       <section class="mb-8">
         <h3 class="font-semibold text-lg mb-4 text-gray-800">Additional Information</h3>
         <div class="grid gap-6">
           <div>
             <label for="contact-person" class="block text-gray-700">Contact Person Name <span class="text-red-500">*</span></label>
-            <input id="contact-person" type="text" bind:value={contactPersonName} placeholder="Enter the contact person's name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+            <input id="contact-person" type="text" bind:value={contactPersonName} placeholder="Enter the contact person's name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
             <label for="customer-email" class="block text-gray-700">Customer Email ID <span class="text-red-500">*</span></label>
-            <input id="customer-email" type="email" bind:value={customerEmail} placeholder="Enter the customer's email ID" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+            <input id="customer-email" type="email" bind:value={customerEmail} placeholder="Enter the customer's email ID" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
             <label for="doc1" class="block text-gray-700">Document 1 <span class="text-red-500">*</span></label>
-            <input id="doc1" type="file" on:change={(e) => (doc1 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+            <input id="doc1" type="file" on:change={(e) => (doc1 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
             <label for="doc2" class="block text-gray-700">Document 2 <span class="text-red-500">*</span></label>
-            <input id="doc2" type="file" on:change={(e) => (doc2 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-orange-600 focus:border-orange-600 focus:outline-none transition-colors" />
+            <input id="doc2" type="file" on:change={(e) => (doc2 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
         </div>
       </section>
 
-      <!-- Submit Button -->
+
       <div class="flex justify-end mt-8">
-        <button on:click={submit} class="bg-orange-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-orange-700 transition-colors"
+        <button on:click={submit} class="bg-black text-white px-6 py-3 rounded-md font-semibold  transition-colors"
     
         >
         
@@ -303,11 +300,9 @@
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="bg-orange-600 text-white py-4 shadow-inner">
-    <div class="container mx-auto px-4 text-center text-sm">
-      <p>&copy; 2024 SRA BAO. All Rights Reserved.</p>
-    </div>
+
+  <footer class="bg-black text-white py-3 text-center text-sm shadow-inner">
+    <p>&copy; 2024 SRA BAO. All Rights Reserved.</p>
   </footer>
 </div>
 
