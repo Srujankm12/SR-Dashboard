@@ -158,6 +158,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
           <div>
 
+            <!-- svelte-ignore a11y_label_has_associated_control -->
             <label class="block text-gray-700">Premises <span class="text-red-500">*</span></label>
             <div class="flex items-center space-x-4 mt-2">
               <label><input type="radio" bind:group={premises} value="Office" class="mr-2" /> Office</label>
