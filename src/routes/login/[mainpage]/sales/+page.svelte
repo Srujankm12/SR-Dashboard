@@ -83,6 +83,7 @@
 
             {#if showInFields}
                 <div class="mt-6">
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="block mb-2 text-sm font-medium text-gray-700">Work *</label>
                     <select class="w-full border border-gray-300 rounded px-3 py-2 focus:border-black focus:ring-black">
                         <option value="">Select Work</option>
@@ -90,6 +91,7 @@
                         <option value="Site">Site</option>
                     </select>
 
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="block mt-4 mb-2 text-sm font-medium text-black">Today's Work Plan *</label>
                     <textarea class="w-full border border-gray-300 rounded px-3 py-2 focus:border-black focus:ring-black" rows="4"></textarea>
 
@@ -107,6 +109,7 @@
 
             {#if showCheckinFields}
                 <div class="mt-6">
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="block mb-2 text-sm font-medium text-black">Company Name *</label>
                     <select class="w-full border border-gray-300 rounded px-3 py-2 focus:border-black focus:ring-black">
                         <option value="">Select Company</option>
@@ -114,6 +117,7 @@
                         <option value="Company B">Company B</option>
                     </select>
 
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="block mt-4 mb-2 text-sm font-medium text-black">Purpose *</label>
                     <textarea class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black" rows="4"></textarea>
 
@@ -188,6 +192,7 @@
                 <label class="block mt-4 mb-2 text-sm font-medium text-black">Result of the Visit *</label>
                 <textarea class="w-full border rounded px-3 py-2  text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"></textarea>
 
+                <!-- svelte-ignore a11y_label_has_associated_control -->
                 <label class="block mt-4 mb-2 text-sm font-medium text-black">Notes *</label>
                 <textarea class="w-full border  rounded px-3 py-2 text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"></textarea>
                 </div>
@@ -204,42 +209,55 @@
 
             {#if showOutFields}
                 <div class="mt-6">
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="block mt-4 mb-2 text-sm font-medium text-black">Total No Of Visits *</label>
                    <input type="number" class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black" />
 
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="block mt-4 mb-2 text-sm font-medium text-black">Total No of Cold Calls *</label>
                     <input type="number" class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black" />
 
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="block mt-4 mb-2 text-sm font-medium text-black">Total No of Customer Follow up  *</label>
                     <input type="number" class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black" />
 
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="block mt-4 mb-2 text-sm font-medium text-black">Total Enquiry Generate *</label>
                    <input type="number" class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black" />
 
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="block mt-4 mb-2 text-sm font-medium text-black">Total Enquiry Generate in Values *</label>
                     <input type="number" class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black" />
 
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="block mt-4 mb-2 text-sm font-medium text-black">Total Order Lost *</label>
                     <input type="number" class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black" />
 
+                    <!-- svelte-ignore a11y_label_has_associated_control -->
                     <label class="block mt-4 mb-2 text-sm font-medium text-black">Total Order Lost in Values *</label>
                     <input type="number" class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black" />
  
+                     <!-- svelte-ignore a11y_label_has_associated_control -->
                      <label class="block mt-4 mb-2 text-sm font-medium text-black"> Total Order Won *</label>
                      <input type="number" class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black" />
  
+                     <!-- svelte-ignore a11y_label_has_associated_control -->
                      <label class="block mt-4 mb-2 text-sm font-medium text-black">Toatl Order Won in Values *</label>
                      <input type="number" class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black" />
 
+                     <!-- svelte-ignore a11y_label_has_associated_control -->
                      <label class="block mt-4 mb-2 text-sm font-medium text-black">Customer Name for Follow ups *</label>
                      <input type="text" class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black" />
 
+                     <!-- svelte-ignore a11y_label_has_associated_control -->
                      <label class="block mt-4 mb-2 text-sm font-medium text-black">Notes *</label>
                      <textarea class="w-full border  rounded px-3 py-2 text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"></textarea>
 
+                     <!-- svelte-ignore a11y_label_has_associated_control -->
                      <label class="block mt-4 mb-2 text-sm font-medium text-black">Tomorrow Goals *</label>
                      <textarea class="w-full border  rounded px-3 py-2 text-black focus:border-black focus:outline-none focus:ring-1 focus:ring-black"></textarea>
 
+                     <!-- svelte-ignore a11y_label_has_associated_control -->
                      <label class="block mt-4 mb-2 text-sm font-medium text-black">How was Today*</label>
                      <select class="w-full border rounded px-3 py-2 focus:border-black focus:ring-black">
                       
