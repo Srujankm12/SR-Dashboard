@@ -123,22 +123,10 @@
 
 
 
-<div class="min-h-screen flex flex-col bg-white text-gray-900">
+<div class="min-h-screen flex flex-col bg-white text-gray-900 ">
+<Header />
 
-  <header class="bg-black text-white shadow-md py-3 rounded-b-sm">
-    <div class="container mx-auto px-6 flex items-center justify-between">
-      <div class="flex items-center space-x-3">
-        <img src="/logo.jpeg" alt="SRA BAO Logo" class="w-12 h-12 rounded-full border-2 border-white shadow-sm" />
-        <div>
-          <h1 class="text-xl font-bold tracking-wide">SRA BAO</h1>
-          <p class="text-xs opacity-80">Daily Reporting System</p>
-        </div>
-      </div>
-    </div>
-  </header>
-
-
-  <main class="flex-grow container mx-auto p-8">
+  <main class="flex-grow container mx-auto  py-28">
     <div class="bg-white shadow-2xl rounded-lg p-8 border-t-4 border-black">
       <h2 class="text-2xl font-semibold mb-6 text-black">Technical Team Daily Report Form</h2>
 
