@@ -93,28 +93,28 @@
         resetForm(); 
         successMessage = "Report submitted successfully!";
         setTimeout(() => (successMessage = ""), 6000);
-        location.reload(); 
+       
       } else {
         const errorText = await response.text();
         errorMessage = `Error submitting the report: ${errorText}`;
-        setTimeout(() => (errorMessage = ""), 3000);
+        setTimeout(() => (errorMessage = ""), 6000);
       }
     } catch (err) {
       errorMessage = "Failed to communicate with the server. Please try again later.";
-      setTimeout(() => (errorMessage = ""), 3000);
+      setTimeout(() => (errorMessage = ""), 6000);
     }
   };
 </script>
 
 <div class="relative">
   {#if successMessage}
-    <div class="fixed bottom-4 right-4 black text-white px-4 py-2 rounded shadow-lg">
+    <div class="fixed bottom-4 right-4 bg-black text-white px-4 py-2 rounded shadow-lg">
       {successMessage}
     </div>
   {/if}
 
   {#if errorMessage}
-    <div class="fixed bottom-4 right-4 bg-white text-black border border-black px-4 py-2 rounded shadow-lg">
+    <div class="fixed bottom-4 right-4  bg-black text-white px-4 py-2 rounded shadow-lg">
       {errorMessage}
     </div>
   {/if}
@@ -296,6 +296,7 @@
     </div>
     {/if}
   </main>
+
 
 </div>
 
