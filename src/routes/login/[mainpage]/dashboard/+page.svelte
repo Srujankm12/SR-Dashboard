@@ -22,6 +22,7 @@
   let typeOfWork = "";
   let doc1 = null;
   let doc2 = null;
+  let isLoading = false;
 
   let successMessage = "";
   let errorMessage = "";
@@ -126,7 +127,13 @@
 <div class="min-h-screen flex flex-col bg-white text-gray-900 ">
 <Header />
 
+
   <main class="flex-grow container mx-auto  py-28">
+    {#if isLoading}
+    <div class="flex justify-center items-center h-full">
+        <div class="animate-spin h-12 w-12 rounded-full border-t-4 border-gray-800"></div>
+    </div>
+{:else}
     <div class="bg-white shadow-2xl rounded-lg p-8 border-t-4 border-black">
       <h2 class="text-2xl font-semibold mb-6 text-black">Technical Team Daily Report Form</h2>
 
@@ -287,11 +294,8 @@
         </button>
       </div>
     </div>
+    {/if}
   </main>
 
-
-  <footer class="bg-black text-white py-3 text-center text-sm shadow-inner">
-    <p>&copy; 2024 SRA BAO. All Rights Reserved.</p>
-  </footer>
 </div>
 
