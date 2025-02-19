@@ -23,7 +23,7 @@
   
             if (response.ok) {
                 const data = await response.json();
-                successMessage = "Login successful";
+                successMessage = "Login successfull !!!";
                 showSuccess = true;
                 setTimeout(() => {
                     goto("/login/" + data.message);
@@ -61,17 +61,21 @@
         </div>
   
     
-        {#if showError}
-            <div class="bg-white border border-white text-black font-medium p-4 rounded mb-4">
+        <div class="relative">
+            {#if successMessage}
+              <div class="fixed bottom-4 right-4 bg-black text-white px-4 py-2 rounded shadow-lg">
+                {successMessage}
+              </div>
+            {/if}
+          
+            {#if errorMessage}
+              <div class="fixed bottom-4 right-4  bg-black text-white px-4 py-2 rounded shadow-lg">
                 {errorMessage}
-            </div>
-        {/if}
-  
-        {#if showSuccess}
-        <div class="bg-white border border-white text-black font-medium p-4 rounded mb-4">
-            {successMessage}
-            </div>
-        {/if}
+              </div>
+            {/if}
+          
+          
+          </div>
   
        
         <form on:submit|preventDefault={handleLogin} class="space-y-6">
