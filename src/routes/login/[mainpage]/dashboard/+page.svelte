@@ -207,7 +207,7 @@
 
         <div class="grid gap-6">
           <div>
-            <label for="joint-meetings" class="block text-gray-700">Joint Visits/Meetings</label>
+            <label for="joint-meetings" class="block text-gray-700">Joint Visits/Meetings<span class="text-red-500">*</span></label>
             <textarea id="joint-meetings" bind:value={jointMeetings} rows="3" placeholder="Enter details of meetings or joint visits" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
           <div>
@@ -286,7 +286,7 @@
             <input id="customer-email" type="email" bind:value={customerEmail} placeholder="Enter the customer's email ID" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
-            <label for="closing-time" class="block text-gray-700">Closing Time</label>
+            <label for="closing-time" class="block text-gray-700">Closing Time <span class="text-red-500">*</span></label>
             <input
               id="closing-time"
               type="time"
