@@ -139,7 +139,7 @@
 
 
       <section class="mb-8">
-        <h3 class="font-semibold text-lg mb-4 text-gray-800">Basic Information</h3>
+      
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label for="report-date" class="block text-gray-700">Report Date <span class="text-red-500">*</span></label>
@@ -180,7 +180,7 @@
             <textarea id="work-scope" bind:value={workScope} rows="3" placeholder="Define the scope of work" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
           <div>
-            <label for="work-details" class="block text-gray-700">Work Details <span class="text-red-500">*</span></label>
+            <label for="work-details" class="block text-gray-700">Work Explaination <span class="text-red-500">*</span></label>
             <textarea id="work-details" bind:value={workDetails} rows="3" placeholder="Provide details of the work" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
         </div>
@@ -188,32 +188,34 @@
 
 
       <section class="mb-8">
-        <h3 class="font-semibold text-lg mb-4 text-gray-800">Additional Details</h3>
+
         <div class="grid gap-6">
           <div>
             <label for="joint-meetings" class="block text-gray-700">Joint Visits/Meetings</label>
             <textarea id="joint-meetings" bind:value={jointMeetings} rows="3" placeholder="Enter details of meetings or joint visits" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
           <div>
-            <label for="support-needed" class="block text-gray-700">Support Needed <span class="text-red-500">*</span></label>
+            <label for="support-needed" class="block text-gray-700">Any Support Required<span class="text-red-500">*</span></label>
             <textarea id="support-needed" bind:value={supportNeeded} rows="3" placeholder="Specify any support required" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
           <div>
             <label for="work-status" class="block text-gray-700">Status of Work <span class="text-red-500">*</span></label>
             <select id="work-status" bind:value={workStatus} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors">
               <option value="">Select status</option>
-              <option value="Pending">Pending</option>
+              <option value="Progress">Progress</option>
               <option value="Completed">Completed</option>
-              <option value="In Progress">In Progress</option>
+              <option value="Pending">Pending</option>
             </select>
           </div>
           <div>
             <label for="work-priority" class="block text-gray-700">Priority of Work <span class="text-red-500">*</span></label>
             <select id="work-priority" bind:value={workPriority} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors">
               <option value="">Select priority</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
             </select>
           </div>
         </div>
@@ -240,30 +242,24 @@
               placeholder="Provide the result or summary"
               class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
+        
           <div>
-            <label for="closing-time" class="block text-gray-700">Closing Time</label>
-            <input
-              id="closing-time"
-              type="time"
-              bind:value={closingTime}
-              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
+            <label for="typeofwork" class="block text-gray-700">Type Of Work <span class="text-red-500">*</span></label>
+            <select id="typeofwork" bind:value={typeOfWork} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors">
+              <option value="">Type Of Work</option>
+              <option value="Chargable">Chargable</option>
+              <option value="Non-Chargable">Non-Chargable</option>
+              <option value="projects and services">projects and services</option>
+            
+            </select>
           </div>
-          <div>
-            <label for="type-of-work" class="block text-gray-700">Type of Work</label>
-            <input
-              id="type-of-work"
-              type="text"
-              bind:value={typeOfWork}
-              placeholder="Enter type of work (e.g., technical, administrative)"
-              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
-          </div>
+      
         </div>
       </section>
       
 
 
       <section class="mb-8">
-        <h3 class="font-semibold text-lg mb-4 text-gray-800">Additional Information</h3>
         <div class="grid gap-6">
           <div>
             <label for="contact-person" class="block text-gray-700">Contact Person Name <span class="text-red-500">*</span></label>
@@ -272,6 +268,14 @@
           <div>
             <label for="customer-email" class="block text-gray-700">Customer Email ID <span class="text-red-500">*</span></label>
             <input id="customer-email" type="email" bind:value={customerEmail} placeholder="Enter the customer's email ID" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
+          </div>
+          <div>
+            <label for="closing-time" class="block text-gray-700">Closing Time</label>
+            <input
+              id="closing-time"
+              type="time"
+              bind:value={closingTime}
+              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
             <label for="doc1" class="block text-gray-700">Document 1 <span class="text-red-500">*</span></label>
