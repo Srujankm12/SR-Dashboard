@@ -77,10 +77,10 @@
       contact_emailid: customerEmail,
     };
 
-    // const formData = new FormData();
+     const formData = new FormData();
     // formData.append("file1", doc1);
     // formData.append("file2", doc2);
-    // formData.append("json_data", JSON.stringify(payload));
+     formData.append("json_data", JSON.stringify(payload));
 
     try {
       const response = await fetch("https://sr-backend-go.onrender.com/submit", {
