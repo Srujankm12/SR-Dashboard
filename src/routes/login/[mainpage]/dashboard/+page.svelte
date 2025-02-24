@@ -1,6 +1,6 @@
 <script>
   import { page } from '$app/stores';
-	import Header from '$lib/header.svelte';
+  import Header from '$lib/header.svelte';
 
   let reportDate = "";
   let employeeName = "";
@@ -22,9 +22,11 @@
   let typeOfWork = "";
 
   let isLoading = false;
-
   let successMessage = "";
   let errorMessage = "";
+
+  let doc1 = null;
+  let doc2 = null;
 
   const resetForm = () => {
     reportDate = "";
@@ -45,16 +47,16 @@
     contactPersonName = "";
     customerEmail = "";
     typeOfWork = "";
-    // doc1 = null;
-    // doc2 = null;
+    doc1 = null;
+    doc2 = null;
   };
 
   const submit = async () => {
-    // if (!doc1 || !doc2) {
-    //   errorMessage = "Please upload both required documents.";
-    //   setTimeout(() => (errorMessage = ""), 3000);
-    //   return;
-    // }
+    if (!reportDate || !employeeName) {
+      errorMessage = "Report date and employee name are required.";
+      setTimeout(() => (errorMessage = ""), 3000);
+      return;
+    }
 
     const payload = {
       user_id: $page.params.mainpage,
@@ -77,33 +79,37 @@
       contact_emailid: customerEmail,
     };
 
-     const formData = new FormData();
-    // formData.append("file1", doc1);
-    // formData.append("file2", doc2);
-     formData.append("json_data", JSON.stringify(payload));
+    const formData = new FormData();
+    if (doc1) formData.append("file1", doc1);
+    if (doc2) formData.append("file2", doc2);
+    formData.append("json_data", JSON.stringify(payload));
 
     try {
+      isLoading = true;
       const response = await fetch("https://sr-backend-go.onrender.com/submit", {
         method: "POST",
         body: formData,
       });
 
       if (response.ok) {
-        resetForm(); 
+        resetForm();
         successMessage = "Report submitted successfully!";
-        setTimeout(() => (successMessage = ""), 6000);
-       
       } else {
-        const errorText = await response.text();
-        errorMessage = `Error submitting the report: ${errorText}`;
-        setTimeout(() => (errorMessage = ""), 6000);
+        const errorData = await response.json();
+        errorMessage = `Error: ${errorData.message || "Submission failed."}`;
       }
     } catch (err) {
       errorMessage = "Failed to communicate with the server. Please try again later.";
-      setTimeout(() => (errorMessage = ""), 6000);
+    } finally {
+      isLoading = false;
+      setTimeout(() => {
+        successMessage = "";
+        errorMessage = "";
+      }, 6000);
     }
   };
 </script>
+
 
 <div class="relative">
   {#if successMessage}
