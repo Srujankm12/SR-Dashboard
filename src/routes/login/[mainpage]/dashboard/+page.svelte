@@ -176,8 +176,19 @@
             <input id="client-name" type="text" bind:value={clientName} placeholder="Enter client or work name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
-            <label for="work-scope" class="block text-gray-700">Scope of Work <span class="text-red-500">*</span></label>
-            <textarea id="work-scope" bind:value={workScope} rows="3" placeholder="Define the scope of work" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
+            <label for="work-scope" class="block text-gray-700">Status of Work <span class="text-red-500">*</span></label>
+            <select id="work-scope" bind:value={workScope} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors">
+              <option value="">Choose</option>
+              <option value="Projectsite">Project Site</option>
+              <option value="ProjectOffline">Project offline</option>
+              <option value="OnlineSupport">Online Support</option>
+       
+              <option value="ServiceVisit">Service Visit</option>
+              <option value="SiteStudyVisit">Site Study Visit</option>
+              <option value="Training">Training</option>
+              <option value="R&D/Testing">R&D/Testing</option>
+              <option value="InternalMeeting">Internal Meeting</option>
+            </select>
           </div>
           <div>
             <label for="work-details" class="block text-gray-700">Work Explaination <span class="text-red-500">*</span></label>
@@ -278,11 +289,11 @@
               class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
-            <label for="doc1" class="block text-gray-700">Document 1 <span class="text-red-500">*</span></label>
+            <label for="doc1" class="block text-gray-700">Document 1 <span class="text-red-500"></span></label>
             <input id="doc1" type="file" on:change={(e) => (doc1 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
-            <label for="doc2" class="block text-gray-700">Document 2 <span class="text-red-500">*</span></label>
+            <label for="doc2" class="block text-gray-700">Document 2 <span class="text-red-500"></span></label>
             <input id="doc2" type="file" on:change={(e) => (doc2 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
         </div>
