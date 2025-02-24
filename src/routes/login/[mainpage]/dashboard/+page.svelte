@@ -143,7 +143,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label for="report-date" class="block text-gray-700">Report Date <span class="text-red-500">*</span></label>
-            <input id="report-date" type="date" bind:value={reportDate} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:black focus:border-black focus:outline-none transition-colors" />
+            <input id="report-date" type="date" bind:value={reportDate} class="w-full p-3 border rounded-md focus:ring-1 focus:black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
             <label for="employee-name" class="block text-gray-700">Employee Name <span class="text-red-500">*</span></label>

@@ -17,8 +17,6 @@
 
 <div class="min-h-screen flex flex-col bg-white text-gray-900">
 <Header />
-  
-
     <main class="flex-grow container mx-auto px-6 py-28">
       {#if isLoading}
   <div class="flex justify-center items-center">
