@@ -14,7 +14,7 @@
   let workStatus = "";
   let workPriority = "";
   let actionPlan = "";
-  let reportSummary = "";
+
   let taskType = "";
   let closingTime = "";
   let contactPersonName = "";
@@ -41,7 +41,7 @@
     workStatus = "";
     workPriority = "";
     actionPlan = "";
-    reportSummary = "";
+
     taskType = "";
     closingTime = "";
     contactPersonName = "";
@@ -72,7 +72,7 @@
       status_of_work: workStatus,
       priority_of_work: workPriority,
       next_action_plan: actionPlan,
-      result: reportSummary,
+
       type_of_work: typeOfWork,
       closing_time: closingTime,
       contact_person_name: contactPersonName,
@@ -249,15 +249,7 @@
               placeholder="Describe the next action plan"
               class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
           </div>
-          <div>
-            <label for="report-summary" class="block text-gray-700">Result</label>
-            <textarea
-              id="report-summary"
-              bind:value={reportSummary}
-              rows="3"
-              placeholder="Provide the result or summary"
-              class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors"></textarea>
-          </div>
+         
         
           <div>
             <label for="typeofwork" class="block text-gray-700">Type Of Work <span class="text-red-500">*</span></label>
