@@ -20,8 +20,7 @@
   let contactPersonName = "";
   let customerEmail = "";
   let typeOfWork = "";
-  let doc1 = null;
-  let doc2 = null;
+
   let isLoading = false;
 
   let successMessage = "";
@@ -46,16 +45,16 @@
     contactPersonName = "";
     customerEmail = "";
     typeOfWork = "";
-    doc1 = null;
-    doc2 = null;
+    // doc1 = null;
+    // doc2 = null;
   };
 
   const submit = async () => {
-    if (!doc1 || !doc2) {
-      errorMessage = "Please upload both required documents.";
-      setTimeout(() => (errorMessage = ""), 3000);
-      return;
-    }
+    // if (!doc1 || !doc2) {
+    //   errorMessage = "Please upload both required documents.";
+    //   setTimeout(() => (errorMessage = ""), 3000);
+    //   return;
+    // }
 
     const payload = {
       user_id: $page.params.mainpage,
@@ -78,10 +77,10 @@
       contact_emailid: customerEmail,
     };
 
-    const formData = new FormData();
-    formData.append("file1", doc1);
-    formData.append("file2", doc2);
-    formData.append("json_data", JSON.stringify(payload));
+    // const formData = new FormData();
+    // formData.append("file1", doc1);
+    // formData.append("file2", doc2);
+    // formData.append("json_data", JSON.stringify(payload));
 
     try {
       const response = await fetch("https://sr-backend-go.onrender.com/submit", {
@@ -288,7 +287,7 @@
               bind:value={closingTime}
               class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
-          <div>
+          <!-- <div>
             <label for="doc1" class="block text-gray-700">Document 1 <span class="text-red-500"></span></label>
             <input id="doc1" type="file" on:change={(e) => (doc1 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
@@ -296,7 +295,7 @@
             <label for="doc2" class="block text-gray-700">Document 2 <span class="text-red-500"></span></label>
             <input id="doc2" type="file" on:change={(e) => (doc2 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
-        </div>
+        </div> -->
       </section>
 
 
