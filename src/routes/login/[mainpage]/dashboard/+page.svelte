@@ -293,7 +293,7 @@
               bind:value={closingTime}
               class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
-          <!-- <div>
+          <div>
             <label for="doc1" class="block text-gray-700">Document 1 <span class="text-red-500"></span></label>
             <input id="doc1" type="file" on:change={(e) => (doc1 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
@@ -301,7 +301,7 @@
             <label for="doc2" class="block text-gray-700">Document 2 <span class="text-red-500"></span></label>
             <input id="doc2" type="file" on:change={(e) => (doc2 = e.target.files[0])} class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
-        </div> -->
+        </div>
       </section>
 
 
