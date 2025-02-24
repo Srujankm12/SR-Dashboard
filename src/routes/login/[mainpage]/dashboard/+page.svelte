@@ -84,7 +84,7 @@
     formData.append("json_data", JSON.stringify(payload));
 
     try {
-      const response = await fetch("http://localhost:8000/submit", {
+      const response = await fetch("https://sr-backend-go.onrender.com/submit", {
         method: "POST",
         body: formData,
       });
