@@ -172,8 +172,8 @@
         <h3 class="font-semibold text-lg mb-4 text-gray-800">Work Details</h3>
         <div class="grid gap-6">
           <div>
-            <label for="client-name" class="block text-gray-700">Client Name <span class="text-red-500">*</span></label>
-            <input id="client-name" type="text" bind:value={clientName} placeholder="Enter client or work name" class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
+            <label for="client-name" class="block text-gray-700">CompanyName <span class="text-red-500">*</span></label>
+            <input id="client-name" type="text" bind:value={clientName} placeholder="Enter Company name " class="w-full p-3 border border-gray-300 rounded-md focus:ring-1 focus:ring-black focus:border-black focus:outline-none transition-colors" />
           </div>
           <div>
             <label for="work-scope" class="block text-gray-700">Scope of Work <span class="text-red-500">*</span></label>
