@@ -5,6 +5,7 @@
     import Header from '$lib/header.svelte';
 
     let userid = '';
+    let emp_id  = '';
     let work = '';
     let todays_work_plan = '';
     let isLoading = false;
@@ -49,7 +50,7 @@
             }
         }
         if (userid) {
-            logoutData.user_id = userid; // update logout data with the user ID
+            logoutData.user_id = userid;
             await fetchPreviousReport();
         }
     });
@@ -62,7 +63,7 @@
                 if (response.status === 404) {
                     console.warn("No previous report found.");
                     previousReport = null;
-                    showForm = true; // Show form if no report found
+                    showForm = true; 
                     return;
                 }
                 throw new Error('Failed to fetch previous report');
@@ -78,9 +79,34 @@
         }
     }
 
-    function convertToIST(utcDateTime) {
-        if (!utcDateTime) return "N/A";
+    async function fetchLogoutData(emp_id) {
+    if (!emp_id) {
+        console.error('emp_id is required to fetch logout data');
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:8000/sales/getdeatils/${emp_id}`);
         
+        if (!response.ok) {
+            const errorText = await response.text(); // Get the error message from the response
+            throw new Error(`Failed to fetch logout data: ${errorText}`);
+        }
+
+        const data = await response.json();
+        console.log("Fetched logout data:", data);
+
+        // Update state or variable correctly (if using React, useState)
+        logoutData = { ...data }; // Ensure `logoutData` is correctly updated
+
+    } catch (error) {
+        console.error('Error fetching logout data:', error.message);
+    }
+}
+
+
+    function convertToIST(utcDateTime) {
+        if (!utcDateTime) return "N/A"; 
         const date = new Date(utcDateTime);
         const options = {
             timeZone: 'Asia/Kolkata',
@@ -136,35 +162,44 @@
     }
 
     // Submit the logout data to the API endpoint
-    async function submitLogoutData() {
-        console.log("Submitting logout data:", logoutData);
-        try {
-            isLoading = true;
-            const response = await fetch('http://localhost:8000/sales/logout', {
-                method: 'POST',
-     
-                body: JSON.stringify(logoutData)
-            });
-            if (!response.ok) {
-                throw new Error('Logout failed');
-            }
-            const result = await response.json();
-            console.log("Logout successful:", result);
-            alert("Logout successful");
+    let logoutSubmitted = false;
+let logoutTime = ""; // Store logout time
 
-        
-            localStorage.removeItem('user_id');
-            userid = '';
-            previousReport = null;
-            showForm = true;
-            showLogoutForm = false;
-        } catch (error) {
-            console.error("Error during logout:", error);
-            alert("Logout failed");
-        } finally {
-            isLoading = false;
+async function submitLogoutData() {
+    console.log("Submitting logout data:", logoutData);
+    try {
+        isLoading = true;
+        const response = await fetch('http://localhost:8000/sales/logout', {
+            method: 'POST',
+            body: JSON.stringify(logoutData)
+        });
+
+        if (!response.ok) {
+            throw new Error('Logout failed');
         }
+
+        const result = await response.json();
+        console.log("Logout successful:", result);
+        alert("Logout successful");
+
+        // Store logout time
+        logoutTime = convertToIST(new Date().toISOString()); 
+        logoutSubmitted = true;
+
+        // Reset user and form
+        localStorage.removeItem('user_id');
+        userid = '';
+        previousReport = null;
+        showForm = true;
+        showLogoutForm = false;
+    } catch (error) {
+        console.error("Error during logout:", error);
+        alert("Logout failed");
+    } finally {
+        isLoading = false;
     }
+}
+
 </script>
 
 <div class="min-h-screen flex flex-col bg-white text-gray-900">
@@ -191,58 +226,72 @@
                     <div class="mt-6 p-4 border rounded">
                         <h2 class="font-semibold mb-4">Fill Logout Data</h2>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total No. of Visits:</label>
                             <input type="number" bind:value={logoutData.total_no_of_visits} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total No. of Cold Calls:</label>
                             <input type="number" bind:value={logoutData.total_no_of_cold_calls} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total No. of Follow Ups:</label>
                             <input type="number" bind:value={logoutData.total_no_of_follow_ups} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Enquiry Generated:</label>
                             <input type="number" bind:value={logoutData.total_enquiry_generated} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Enquiry Value:</label>
                             <input type="number" step="0.01" bind:value={logoutData.total_enquiry_value} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Order Lost:</label>
                             <input type="number" bind:value={logoutData.total_order_lost} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Order Lost Value:</label>
                             <input type="number" step="0.01" bind:value={logoutData.total_order_lost_value} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Order Won:</label>
                             <input type="number" bind:value={logoutData.total_order_won} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Order Won Value:</label>
                             <input type="number" step="0.01" bind:value={logoutData.total_order_won_value} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Customer Follow Up Name:</label>
                             <input type="text" bind:value={logoutData.customer_follow_up_name} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Notes:</label>
                             <textarea bind:value={logoutData.notes} class="border p-2 rounded w-full"></textarea>
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Tomorrow Goals:</label>
                             <input type="text" bind:value={logoutData.tomorrow_goals} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">How Was Today:</label>
                             <input type="text" bind:value={logoutData.how_was_today} class="border p-2 rounded w-full" />
                         </div>
                         <div class="mb-2">
+                            <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Work Location:</label>
                             <input type="text" bind:value={logoutData.work_location} class="border p-2 rounded w-full" />
                         </div>
@@ -255,10 +304,12 @@
                 <p class="text-gray-500 mt-4">No previous report found for today.</p>
                 {#if showForm}
                     <div class="mt-4">
+                        <!-- svelte-ignore a11y_label_has_associated_control -->
                         <label class="block">Work:</label>
                         <input bind:value={work} class="border p-2 rounded w-full" />
                     </div>
                     <div class="mt-4">
+                        <!-- svelte-ignore a11y_label_has_associated_control -->
                         <label class="block">Today's Work Plan:</label>
                         <textarea bind:value={todays_work_plan} class="border p-2 rounded w-full"></textarea>
                     </div>
@@ -268,5 +319,12 @@
                 {/if}
             {/if}
         {/if}
+        {#if logoutSubmitted}
+    <div class="mt-4 p-4 bg-green-100 text-green-700 rounded">
+        <h2 class="font-semibold">Logout Submitted</h2>
+        <p><strong>Logout Time:</strong> {logoutTime}</p>
+    </div>
+{/if}
+
     </main>
 </div>
