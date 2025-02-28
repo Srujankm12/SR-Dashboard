@@ -86,7 +86,7 @@
     }
 
     try {
-        const response = await fetch(`http://localhost:8000/sales/getdeatils/${empid}`);
+        const response = await fetch(`https://sr-backend-go.onrender.com/getdeatils/${empid}`);
         
         if (!response.ok) {
             const errorText = await response.text(); // Get the error message from the response
@@ -131,7 +131,7 @@
 
         try {
             isLoading = true;
-            const response = await fetch('http://localhost:8000/sales/submit', {
+            const response = await fetch('https://sr-backend-go.onrender.com/sales/submit', {
                 method: 'POST',
           
                 body: JSON.stringify({
@@ -169,7 +169,7 @@ async function submitLogoutData() {
     console.log("Submitting logout data:", logoutData);
     try {
         isLoading = true;
-        const response = await fetch('http://localhost:8000/sales/logout', {
+        const response = await fetch('https://sr-backend-go.onrender.com/sales/logout', {
             method: 'POST',
             body: JSON.stringify(logoutData)
         });
