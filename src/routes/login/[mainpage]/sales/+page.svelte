@@ -5,7 +5,7 @@
     import Header from '$lib/header.svelte';
 
     let userid = '';
-    let emp_id  = '';
+    let empid  = '';
     let work = '';
     let todays_work_plan = '';
     let isLoading = false;
@@ -86,7 +86,7 @@
     }
 
     try {
-        const response = await fetch(`http://localhost:8000/sales/getdeatils/${emp_id}`);
+        const response = await fetch(`http://localhost:8000/sales/getdeatils/${empid}`);
         
         if (!response.ok) {
             const errorText = await response.text(); // Get the error message from the response
