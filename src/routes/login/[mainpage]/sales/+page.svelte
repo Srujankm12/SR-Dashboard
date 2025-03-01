@@ -96,7 +96,7 @@
     }
     async function fetchLogoutSummary() {
     try {
-        const response = await fetch(`https://sr-backend-go.onrender.com/getd/${userid}`);
+        const response = await fetch(`https://sr-backend-go.onrender.com/sales/getd/${userid}`);
         if (!response.ok) {
             if (response.status === 404) {
                 console.warn("No logout summary found.");
