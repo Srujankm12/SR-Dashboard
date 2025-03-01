@@ -39,29 +39,33 @@
     };
 
     onMount(async () => {
-        const urlParams = get(page).params;
-        console.log("URL Params:", urlParams);
+    const urlParams = get(page).params;
+    console.log("URL Params:", urlParams);
 
-        if (urlParams && urlParams.mainpage) {
-            userid = urlParams.mainpage;
-            localStorage.setItem('user_id', userid);
-            console.log("User ID from URL:", userid);
+    if (urlParams && urlParams.mainpage) {
+        userid = urlParams.mainpage;
+        localStorage.setItem('user_id', userid);
+        console.log("User ID from URL:", userid);
+    } else {
+        const storedUserId = localStorage.getItem('user_id');
+        if (storedUserId) {
+            userid = storedUserId;
+            console.log("User ID from localStorage:", userid);
         } else {
-            const storedUserId = localStorage.getItem('user_id');
-            if (storedUserId) {
-                userid = storedUserId;
-                console.log("User ID from localStorage:", userid);
-            } else {
-                console.error("User ID is missing from both URL and localStorage!");
-                return;
-            }
+            console.error("User ID is missing from both URL and localStorage!");
+            return;
         }
+    }
 
-        if (userid) {
-            await fetchPreviousReport();
-            await fetchLogoutSummary();
-        }
-    });
+    // Retrieve logout time from localStorage
+    logoutTime = localStorage.getItem('logout_time') || '';
+
+    if (userid) {
+        await fetchPreviousReport();
+        await fetchLogoutSummary();
+    }
+});
+
 
     async function fetchPreviousReport() {
         try {
@@ -203,7 +207,7 @@
         // Update UI immediately
         showLogoutForm = false;
         logoutSubmitted = true;
-        
+
         // Re-fetch logout summary to update UI
         await fetchLogoutSummary();
     } catch (error) {
@@ -213,6 +217,7 @@
         isLoading = false;
     }
 }
+
 function toggleLogoutForm() {
     showLogoutForm = !showLogoutForm;
 }
