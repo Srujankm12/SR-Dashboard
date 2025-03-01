@@ -5,24 +5,30 @@
     import Header from '$lib/header.svelte';
 
     let userid = '';
-    let empid  = '';
+    let empid = '';
     let work = '';
     let todays_work_plan = '';
     let isLoading = false;
     let previousReport = null;
     let showForm = true;
-    let showLogoutForm = false; 
+    let showLogoutForm = false;
+    let logoutSubmitted = false;
+    let login_time = '';
+    let logoutSummary = null;
+    let logoutTime = '';
+    let showLogout ='';
+    let previousReports ='';
 
-   
     let logoutData = {
         user_id: '',
+        emp_id: '',
         total_no_of_visits: '',
         total_no_of_cold_calls: '',
         total_no_of_follow_ups: '',
         total_enquiry_generated: '',
         total_enquiry_value: '',
         total_order_lost: '',
-        total_order_lost_value:'',
+        total_order_lost_value: '',
         total_order_won: '',
         total_order_won_value: '',
         customer_follow_up_name: "",
@@ -47,23 +53,24 @@
                 console.log("User ID from localStorage:", userid);
             } else {
                 console.error("User ID is missing from both URL and localStorage!");
+                return;
             }
         }
+
         if (userid) {
-            logoutData.user_id = userid;
             await fetchPreviousReport();
+            await fetchLogoutSummary();
         }
     });
 
     async function fetchPreviousReport() {
         try {
-            const response = await fetch(`https://sr-backend-go.onrender.com/sales/get/${userid}`);
-            
+            const response = await fetch(`http://localhost:8000/sales/get/${userid}`);
             if (!response.ok) {
                 if (response.status === 404) {
                     console.warn("No previous report found.");
                     previousReport = null;
-                    showForm = true; 
+                    showForm = true;
                     return;
                 }
                 throw new Error('Failed to fetch previous report');
@@ -71,54 +78,54 @@
 
             const data = await response.json();
             console.log("Fetched previous report:", data);
+
+            if (data.login_time) {
+                data.login_time = convertToIST(data.login_time);
+            }
+
+            if (data.emp_id) {
+                empid = data.emp_id;
+            }
+
             previousReport = { ...data };
-            showForm = false; 
+            showForm = false;
         } catch (error) {
             console.error('Error fetching previous report:', error);
             previousReport = null;
         }
     }
-
-    async function fetchLogoutData(emp_id) {
-    if (!emp_id) {
-        console.error('emp_id is required to fetch logout data');
-        return;
-    }
-
+    async function fetchLogoutSummary() {
     try {
-        const response = await fetch(`https://sr-backend-go.onrender.com/getdeatils/${empid}`);
-        
+        const response = await fetch(`http://localhost:8000/sales/getd/${userid}`);
         if (!response.ok) {
-            const errorText = await response.text(); // Get the error message from the response
-            throw new Error(`Failed to fetch logout data: ${errorText}`);
+            if (response.status === 404) {
+                console.warn("No logout summary found.");
+                logoutSummary = null;
+                logoutTime = localStorage.getItem('logout_time') || ''; // Use stored logout time
+                return;
+            }
+            throw new Error('Failed to fetch logout summary');
         }
 
-        const data = await response.json();
-        console.log("Fetched logout data:", data);
+        logoutSummary = await response.json();
+        console.log("Fetched logout summary:", logoutSummary);
 
-        // Update state or variable correctly (if using React, useState)
-        logoutData = { ...data }; // Ensure `logoutData` is correctly updated
-
+        if (logoutSummary && logoutSummary.logout_time) {
+            logoutTime = convertToIST(logoutSummary.logout_time);
+            localStorage.setItem('logout_time', logoutTime); // Store logout time persistently
+        } else {
+            logoutTime = localStorage.getItem('logout_time') || ''; // Retrieve logout time if available
+        }
     } catch (error) {
-        console.error('Error fetching logout data:', error.message);
+        console.error('Error fetching logout summary:', error);
+        logoutSummary = null;
     }
 }
 
-
     function convertToIST(utcDateTime) {
-        if (!utcDateTime) return "N/A"; 
+        if (!utcDateTime) return "N/A";
         const date = new Date(utcDateTime);
-        const options = {
-            timeZone: 'Asia/Kolkata',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit'
-        };
-        
-        return new Intl.DateTimeFormat('en-IN', options).format(date);
+        return date.toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
     }
 
     async function submitSalesReport() {
@@ -133,7 +140,6 @@
             isLoading = true;
             const response = await fetch('https://sr-backend-go.onrender.com/sales/submit', {
                 method: 'POST',
-          
                 body: JSON.stringify({
                     user_id: userid,
                     work,
@@ -155,18 +161,23 @@
             isLoading = false;
         }
     }
+    async function submitLogoutData() {
+    console.log("Preparing to submit logout data...");
 
-    // Toggle the logout form when Logout is clicked
-    function showLogout() {
-        showLogoutForm = true;
+    if (!userid) {
+        userid = localStorage.getItem('user_id') || '';
     }
 
-    // Submit the logout data to the API endpoint
-    let logoutSubmitted = false;
-let logoutTime = ""; // Store logout time
+    if (!previousReport || !previousReport.emp_id) {
+        alert("Error: Employee ID is missing. Please refresh the page.");
+        return;
+    }
 
-async function submitLogoutData() {
+    logoutData.user_id = userid;
+    logoutData.emp_id = previousReport.emp_id;
+
     console.log("Submitting logout data:", logoutData);
+
     try {
         isLoading = true;
         const response = await fetch('https://sr-backend-go.onrender.com/sales/logout', {
@@ -175,6 +186,8 @@ async function submitLogoutData() {
         });
 
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error("Logout API response:", errorText);
             throw new Error('Logout failed');
         }
 
@@ -182,25 +195,32 @@ async function submitLogoutData() {
         console.log("Logout successful:", result);
         alert("Logout successful");
 
-        // Store logout time
-        logoutTime = convertToIST(new Date().toISOString()); 
-        logoutSubmitted = true;
+        // Convert and store logout time
+        logoutTime = convertToIST(new Date().toISOString());
+        localStorage.setItem('logout_time', logoutTime); // Store logout time persistently
+        console.log("Stored Logout Time:", logoutTime);
 
-        // Reset user and form
-        localStorage.removeItem('user_id');
-        userid = '';
-        previousReport = null;
-        showForm = true;
+        // Update UI immediately
         showLogoutForm = false;
+        logoutSubmitted = true;
+        
+        // Re-fetch logout summary to update UI
+        await fetchLogoutSummary();
     } catch (error) {
         console.error("Error during logout:", error);
-        alert("Logout failed");
+        alert("Logout failed. Check console for details.");
     } finally {
         isLoading = false;
     }
 }
+function toggleLogoutForm() {
+    showLogoutForm = !showLogoutForm;
+}
+
+
 
 </script>
+
 
 <div class="min-h-screen flex flex-col bg-white text-gray-900">
     <Header />
@@ -212,12 +232,18 @@ async function submitLogoutData() {
         {:else}
             <h1 class="text-xl font-bold">Sales Report Submission</h1>
             {#if previousReport}
-                <div class="mt-4 bg-gray-100 p-4 rounded">
-                    <h2 class="font-semibold">Previous Submission:</h2>
-                    <p><strong>Login Time:</strong> {convertToIST(previousReport.LoginTime)}</p>
-                </div>
+            <div class="mt-4 bg-gray-100 p-4 rounded">
+                <h2 class="font-semibold">Previous Submission:</h2>
+                <p><strong>Logged in at:</strong> {previousReport.login_time || "N/A"}</p>
+                
+                {#if logoutTime}
+                    <p><strong>Logged out at:</strong> {logoutTime}</p>
+                {/if}
+            </div>
                 <div class="mt-4 flex space-x-4">
-                    <button class="bg-red-500 text-white px-4 py-2 rounded" on:click={showLogout}>Logout</button>
+                    <button class="bg-red-500 text-white px-4 py-2 rounded" on:click={toggleLogoutForm}>Logout</button>
+
+
                     <button class="bg-black text-white px-4 py-2 rounded">Check-in</button>
                     <button class="bg-black text-white px-4 py-2 rounded">Check-out</button>
                 </div>
