@@ -65,7 +65,7 @@
 
     async function fetchPreviousReport() {
         try {
-            const response = await fetch(`http://localhost:8000/sales/get/${userid}`);
+            const response = await fetch(`https://sr-backend-go.onrender.com/sales/get/${userid}`);
             if (!response.ok) {
                 if (response.status === 404) {
                     console.warn("No previous report found.");
@@ -96,7 +96,7 @@
     }
     async function fetchLogoutSummary() {
     try {
-        const response = await fetch(`http://localhost:8000/sales/getd/${userid}`);
+        const response = await fetch(`https://sr-backend-go.onrender.com/getd/${userid}`);
         if (!response.ok) {
             if (response.status === 404) {
                 console.warn("No logout summary found.");
