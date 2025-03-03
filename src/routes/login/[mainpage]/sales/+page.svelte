@@ -13,11 +13,9 @@
     let showForm = true;
     let showLogoutForm = false;
     let logoutSubmitted = false;
-    let login_time = '';
     let logoutSummary = null;
     let logoutTime = '';
-    let showLogout ='';
-    let previousReports ='';
+    let previousReports = '';
 
     let logoutData = {
         user_id: '',
@@ -31,45 +29,45 @@
         total_order_lost_value: '',
         total_order_won: '',
         total_order_won_value: '',
-        customer_follow_up_name: "",
-        notes: "",
-        tomorrow_goals: "",
-        how_was_today: "",
-        work_location: ""
+        customer_follow_up_name: '',
+        notes: '',
+        tomorrow_goals: '',
+        how_was_today: '',
+        work_location: ''
     };
 
     onMount(async () => {
-    const urlParams = get(page).params;
-    console.log("URL Params:", urlParams);
+        const urlParams = get(page).params;
+        console.log("URL Params:", urlParams);
 
-    if (urlParams && urlParams.mainpage) {
-        userid = urlParams.mainpage;
-        localStorage.setItem('user_id', userid);
-        console.log("User ID from URL:", userid);
-    } else {
-        const storedUserId = localStorage.getItem('user_id');
-        if (storedUserId) {
-            userid = storedUserId;
-            console.log("User ID from localStorage:", userid);
+        if (urlParams && urlParams.mainpage) {
+            userid = urlParams.mainpage;
+            localStorage.setItem('user_id', userid);
+            console.log("User ID from URL:", userid);
         } else {
-            console.error("User ID is missing from both URL and localStorage!");
-            return;
+            userid = localStorage.getItem('user_id') || '';
+            if (!userid) {
+                console.error("User ID is missing from both URL and localStorage!");
+                return;
+            }
         }
-    }
 
-    // Retrieve logout time from localStorage
-    logoutTime = localStorage.getItem('logout_time') || '';
+        // Clear outdated logout cache
+        localStorage.removeItem('logout_time');
+        logoutTime = '';
 
-    if (userid) {
-        await fetchPreviousReport();
-        await fetchLogoutSummary();
-    }
-});
-
+        if (userid) {
+            await fetchPreviousReport();
+            await fetchLogoutSummary();
+        }
+    });
 
     async function fetchPreviousReport() {
         try {
-            const response = await fetch(`https://sr-backend-go.onrender.com/sales/get/${userid}`);
+            const response = await fetch(`https://sr-backend-go.onrender.com/sales/get/${userid}`, {
+                cache: 'no-store'
+            });
+
             if (!response.ok) {
                 if (response.status === 404) {
                     console.warn("No previous report found.");
@@ -103,28 +101,26 @@
         console.log("Fetching logout summary for:", userid);
 
         const response = await fetch(`https://sr-backend-go.onrender.com/sales/getd/${userid}`, {
-        cache: "no-store", 
- 
-    });
+            cache: "no-store",
+        });
+
         console.log("Logout Summary API Response Status:", response.status);
 
+        if (response.status === 404) {
+            console.warn("No logout summary found.");
+            logoutSummary = null;
+            logoutTime = localStorage.getItem('logout_time') || 'N/A';
+            return;
+        }
+
         if (!response.ok) {
-            const errorText = await response.text(); // Fetch detailed error message
-            console.error("Logout Summary Error:", errorText);
-            
-            if (response.status === 404) {
-                console.warn("No logout summary found.");
-                logoutSummary = null;
-                logoutTime = localStorage.getItem('logout_time') || ''; // Use stored logout time if available
-                return;
-            }
-            throw new Error(`Failed to fetch logout summary: ${errorText}`);
+            throw new Error(`Failed to fetch logout summary: ${await response.text()}`);
         }
 
         const data = await response.json();
         console.log("Fetched logout summary:", data);
 
-        if (data && data.logout_time) {
+        if (data.logout_time) {
             logoutTime = convertToIST(data.logout_time);
             localStorage.setItem('logout_time', logoutTime);
             console.log("Stored Logout Time:", logoutTime);
@@ -132,13 +128,13 @@
             console.warn("Logout time missing in response, using stored value.");
             logoutTime = localStorage.getItem('logout_time') || 'N/A';
         }
-
     } catch (error) {
-        console.error('Error fetching logout summary:', error);
+        console.error("Error fetching logout summary:", error);
         logoutSummary = null;
         logoutTime = localStorage.getItem('logout_time') || 'N/A';
     }
 }
+
 
     function convertToIST(utcDateTime) {
         if (!utcDateTime) return "N/A";
@@ -158,11 +154,8 @@
             isLoading = true;
             const response = await fetch('https://sr-backend-go.onrender.com/sales/submit', {
                 method: 'POST',
-                body: JSON.stringify({
-                    user_id: userid,
-                    work,
-                    todays_work_plan
-                })
+
+                body: JSON.stringify({ user_id: userid, work, todays_work_plan })
             });
 
             if (!response.ok) {
@@ -179,66 +172,69 @@
             isLoading = false;
         }
     }
+
     async function submitLogoutData() {
-    console.log("Preparing to submit logout data...");
+        console.log("Preparing to submit logout data...");
 
-    if (!userid) {
-        userid = localStorage.getItem('user_id') || '';
-    }
-
-    if (!previousReport || !previousReport.emp_id) {
-        alert("Error: Employee ID is missing. Please refresh the page.");
-        return;
-    }
-
-    logoutData.user_id = userid;
-    logoutData.emp_id = previousReport.emp_id;
-
-    console.log("Submitting logout data:", logoutData);
-
-    try {
-        isLoading = true;
-        const response = await fetch('https://sr-backend-go.onrender.com/sales/logout', {
-            method: 'POST',
-            body: JSON.stringify(logoutData)
-        });
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error("Logout API response:", errorText);
-            throw new Error('Logout failed');
+        if (!userid) {
+            userid = localStorage.getItem('user_id') || '';
         }
 
-        const result = await response.json();
-        console.log("Logout successful:", result);
-        alert("Logout successful");
+        if (!previousReport || !previousReport.emp_id) {
+            alert("Error: Employee ID is missing. Please refresh the page.");
+            return;
+        }
 
-        // Convert and store logout time
-        logoutTime = convertToIST(new Date().toISOString());
-        localStorage.setItem('logout_time', logoutTime); // Store logout time persistently
-        console.log("Stored Logout Time:", logoutTime);
+        logoutData.user_id = userid;
+        logoutData.emp_id = previousReport.emp_id;
 
-        // Update UI immediately
-        showLogoutForm = false;
-        logoutSubmitted = true;
+        console.log("Submitting logout data:", logoutData);
 
-        // Re-fetch logout summary to update UI
-        await fetchLogoutSummary();
-    } catch (error) {
-        console.error("Error during logout:", error);
-        alert("Logout failed. Check console for details.");
-    } finally {
-        isLoading = false;
+        try {
+            isLoading = true;
+            const response = await fetch('https://sr-backend-go.onrender.com/sales/logout', {
+                method: 'POST',
+      
+                body: JSON.stringify(logoutData)
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Logout API response:", errorText);
+                throw new Error('Logout failed');
+            }
+
+            const result = await response.json();
+            console.log("Logout successful:", result);
+            alert("Logout successful");
+
+            // Store logout time persistently
+            logoutTime = convertToIST(new Date().toISOString());
+            localStorage.setItem('logout_time', logoutTime);
+            console.log("Stored Logout Time:", logoutTime);
+
+            // Update UI immediately
+            showLogoutForm = false;
+            logoutSubmitted = true;
+
+            // Re-fetch logout summary to update UI
+            await fetchLogoutSummary();
+        } catch (error) {
+            console.error("Error during logout:", error);
+            alert("Logout failed. Check console for details.");
+        } finally {
+            isLoading = false;
+        }
     }
-}
 
-function toggleLogoutForm() {
-    showLogoutForm = !showLogoutForm;
-}
-
-
-
+    function toggleLogoutForm() {
+        showLogoutForm = !showLogoutForm;
+    }
 </script>
+
+
+
+
 
 
 <div class="min-h-screen flex flex-col bg-white text-gray-900">
