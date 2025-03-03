@@ -123,6 +123,7 @@
         if (data.logout_time) {
             logoutTime = convertToIST(data.logout_time);
             localStorage.setItem('logout_time', logoutTime);
+            localStorage.setItem('logout_summary', JSON.stringify(data));
             console.log("Stored Logout Time:", logoutTime);
         } else {
             console.warn("Logout time missing in response, using stored value.");
@@ -130,11 +131,10 @@
         }
     } catch (error) {
         console.error("Error fetching logout summary:", error);
-        logoutSummary = null;
+        logoutSummary = JSON.parse(localStorage.getItem('logout_summary')) || null;
         logoutTime = localStorage.getItem('logout_time') || 'N/A';
     }
 }
-
 
     function convertToIST(utcDateTime) {
         if (!utcDateTime) return "N/A";
