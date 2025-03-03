@@ -103,8 +103,8 @@
         console.log("Fetching logout summary for:", userid);
 
         const response = await fetch(`https://sr-backend-go.onrender.com/sales/getd/${userid}`, {
-        cache: "no-store", // Ensures fresh data
-        headers: { "Cache-Control": "no-cache, no-store, must-revalidate" }
+        cache: "no-store", 
+ 
     });
         console.log("Logout Summary API Response Status:", response.status);
 
