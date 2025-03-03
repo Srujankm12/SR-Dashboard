@@ -15,7 +15,6 @@
     let logoutSubmitted = false;
     let logoutSummary = null;
     let logoutTime = '';
-    let previousReports = '';
 
     let logoutData = {
         user_id: '',
@@ -52,8 +51,7 @@
             }
         }
 
-        // Clear outdated logout cache
-        localStorage.removeItem('logout_time');
+        localStorage.removeItem('logout_time'); // Clear outdated logout cache
         logoutTime = '';
 
         if (userid) {
@@ -96,45 +94,50 @@
             previousReport = null;
         }
     }
+
     async function fetchLogoutSummary() {
-    try {
-        console.log("Fetching logout summary for:", userid);
+        try {
+            console.log("Fetching logout summary for:", userid);
 
-        const response = await fetch(`https://sr-backend-go.onrender.com/sales/getd/${userid}`, {
-            cache: "no-store",
-        });
+            const response = await fetch(`https://sr-backend-go.onrender.com/sales/getd/${userid}`, {
+                cache: "no-store",
+            });
 
-        console.log("Logout Summary API Response Status:", response.status);
+            console.log("Logout Summary API Response Status:", response.status);
 
-        if (response.status === 404) {
-            console.warn("No logout summary found.");
-            logoutSummary = null;
+            if (!response.ok) {
+                if (response.status === 404) {
+                    console.warn("No logout summary found.");
+                    logoutSummary = null;
+                    logoutTime = localStorage.getItem('logout_time') || 'N/A';
+                    return;
+                }
+                throw new Error(`Failed to fetch logout summary: ${await response.text()}`);
+            }
+
+            const data = await response.json();
+            console.log("Fetched logout summary:", data);
+
+            if (Array.isArray(data) && data.length > 0) {
+                logoutSummary = data[0]; // Extract the first object if it's an array
+                if (logoutSummary.logout_time) {
+                    logoutTime = convertToIST(logoutSummary.logout_time);
+                    localStorage.setItem('logout_time', logoutTime);
+                    console.log("Stored Logout Time:", logoutTime);
+                } else {
+                    console.warn("Logout time missing in response, using stored value.");
+                    logoutTime = localStorage.getItem('logout_time') || 'N/A';
+                }
+            } else {
+                console.warn("Unexpected logout summary format:", data);
+                logoutSummary = null;
+            }
+        } catch (error) {
+            console.error("Error fetching logout summary:", error);
+            logoutSummary = JSON.parse(localStorage.getItem('logout_summary')) || null;
             logoutTime = localStorage.getItem('logout_time') || 'N/A';
-            return;
         }
-
-        if (!response.ok) {
-            throw new Error(`Failed to fetch logout summary: ${await response.text()}`);
-        }
-
-        const data = await response.json();
-        console.log("Fetched logout summary:", data);
-
-        if (data.logout_time) {
-            logoutTime = convertToIST(data.logout_time);
-            localStorage.setItem('logout_time', logoutTime);
-            localStorage.setItem('logout_summary', JSON.stringify(data));
-            console.log("Stored Logout Time:", logoutTime);
-        } else {
-            console.warn("Logout time missing in response, using stored value.");
-            logoutTime = localStorage.getItem('logout_time') || 'N/A';
-        }
-    } catch (error) {
-        console.error("Error fetching logout summary:", error);
-        logoutSummary = JSON.parse(localStorage.getItem('logout_summary')) || null;
-        logoutTime = localStorage.getItem('logout_time') || 'N/A';
     }
-}
 
     function convertToIST(utcDateTime) {
         if (!utcDateTime) return "N/A";
@@ -154,7 +157,7 @@
             isLoading = true;
             const response = await fetch('https://sr-backend-go.onrender.com/sales/submit', {
                 method: 'POST',
-
+ 
                 body: JSON.stringify({ user_id: userid, work, todays_work_plan })
             });
 
@@ -194,7 +197,7 @@
             isLoading = true;
             const response = await fetch('https://sr-backend-go.onrender.com/sales/logout', {
                 method: 'POST',
-      
+          
                 body: JSON.stringify(logoutData)
             });
 
@@ -208,16 +211,13 @@
             console.log("Logout successful:", result);
             alert("Logout successful");
 
-            // Store logout time persistently
             logoutTime = convertToIST(new Date().toISOString());
             localStorage.setItem('logout_time', logoutTime);
             console.log("Stored Logout Time:", logoutTime);
 
-            // Update UI immediately
             showLogoutForm = false;
             logoutSubmitted = true;
 
-            // Re-fetch logout summary to update UI
             await fetchLogoutSummary();
         } catch (error) {
             console.error("Error during logout:", error);
@@ -231,7 +231,6 @@
         showLogoutForm = !showLogoutForm;
     }
 </script>
-
 
 
 
