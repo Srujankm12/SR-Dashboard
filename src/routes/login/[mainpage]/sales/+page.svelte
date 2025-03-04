@@ -208,7 +208,6 @@
 
             const result = await response.json();
             console.log("Logout successful:", result);
-            alert("Logout successful");
 
             logoutTime = convertToIST(new Date().toISOString());
             localStorage.setItem('logout_time', logoutTime);
@@ -267,74 +266,74 @@
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total No. of Visits:</label>
-                            <input type="number" bind:value={logoutData.total_no_of_visits} class="border p-2 rounded w-full" />
+                            <input type="number" bind:value={logoutData.total_no_of_visits} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total No. of Cold Calls:</label>
-                            <input type="number" bind:value={logoutData.total_no_of_cold_calls} class="border p-2 rounded w-full" />
+                            <input type="number" bind:value={logoutData.total_no_of_cold_calls} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total No. of Follow Ups:</label>
-                            <input type="number" bind:value={logoutData.total_no_of_follow_ups} class="border p-2 rounded w-full" />
+                            <input type="number" bind:value={logoutData.total_no_of_follow_ups} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Enquiry Generated:</label>
-                            <input type="number" bind:value={logoutData.total_enquiry_generated} class="border p-2 rounded w-full" />
+                            <input type="number" bind:value={logoutData.total_enquiry_generated} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Enquiry Value:</label>
-                            <input type="number" step="0.01" bind:value={logoutData.total_enquiry_value} class="border p-2 rounded w-full" />
+                            <input type="number" step="0.01" bind:value={logoutData.total_enquiry_value} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Order Lost:</label>
-                            <input type="number" bind:value={logoutData.total_order_lost} class="border p-2 rounded w-full" />
+                            <input type="number" bind:value={logoutData.total_order_lost} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Order Lost Value:</label>
-                            <input type="number" step="0.01" bind:value={logoutData.total_order_lost_value} class="border p-2 rounded w-full" />
+                            <input type="number" step="0.01" bind:value={logoutData.total_order_lost_value} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Order Won:</label>
-                            <input type="number" bind:value={logoutData.total_order_won} class="border p-2 rounded w-full" />
+                            <input type="number" bind:value={logoutData.total_order_won} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Total Order Won Value:</label>
-                            <input type="number" step="0.01" bind:value={logoutData.total_order_won_value} class="border p-2 rounded w-full" />
+                            <input type="number" step="0.01" bind:value={logoutData.total_order_won_value} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Customer Follow Up Name:</label>
-                            <input type="text" bind:value={logoutData.customer_follow_up_name} class="border p-2 rounded w-full" />
+                            <input type="text" bind:value={logoutData.customer_follow_up_name} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Notes:</label>
-                            <textarea bind:value={logoutData.notes} class="border p-2 rounded w-full"></textarea>
+                            <textarea bind:value={logoutData.notes} class="border p-2 rounded w-full focus:outline-none focus:border-black"></textarea>
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Tomorrow Goals:</label>
-                            <input type="text" bind:value={logoutData.tomorrow_goals} class="border p-2 rounded w-full" />
+                            <input type="text" bind:value={logoutData.tomorrow_goals} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">How Was Today:</label>
-                            <input type="text" bind:value={logoutData.how_was_today} class="border p-2 rounded w-full" />
+                            <input type="text" bind:value={logoutData.how_was_today} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
                         <div class="mb-2">
                             <!-- svelte-ignore a11y_label_has_associated_control -->
                             <label class="block">Work Location:</label>
-                            <input type="text" bind:value={logoutData.work_location} class="border p-2 rounded w-full" />
+                            <input type="text" bind:value={logoutData.work_location} class="border p-2 rounded w-full focus:outline-none focus:border-black" />
                         </div>
-                        <button on:click={submitLogoutData} class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">
+                        <button on:click={submitLogoutData} class="mt-4 bg-black text-white px-4 py-2 rounded">
                             Submit Logout Data
                         </button>
                     </div>
@@ -345,25 +344,19 @@
                     <div class="mt-4">
                         <!-- svelte-ignore a11y_label_has_associated_control -->
                         <label class="block">Work:</label>
-                        <input bind:value={work} class="border p-2 rounded w-full" />
+                        <input bind:value={work} class="border p-2 rounded w-full border-gray-300 focus:outline-none focus:border-black" />
                     </div>
                     <div class="mt-4">
                         <!-- svelte-ignore a11y_label_has_associated_control -->
                         <label class="block">Today's Work Plan:</label>
-                        <textarea bind:value={todays_work_plan} class="border p-2 rounded w-full"></textarea>
+                        <textarea bind:value={todays_work_plan} class="border p-2 rounded w-full focus:outline-none focus:border-black"></textarea>
                     </div>
-                    <button on:click={submitSalesReport} class="mt-4 bg-orange-500 text-white px-4 py-2 rounded">
+                    <button on:click={submitSalesReport} class="mt-4 bg-black text-white px-4 py-2 rounded">
                         Submit Report
                     </button>
                 {/if}
             {/if}
         {/if}
-        {#if logoutSubmitted}
-    <div class="mt-4 p-4 bg-green-100 text-green-700 rounded">
-        <h2 class="font-semibold">Logout Submitted</h2>
-        <p><strong>Logout Time:</strong> {logoutTime}</p>
-    </div>
-{/if}
-
+       
     </main>
 </div>
