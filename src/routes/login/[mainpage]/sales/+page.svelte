@@ -166,7 +166,6 @@
             }
 
             const data = await response.json();
-            alert(`Success: ${data.message}\nEmployee ID: ${data.emp_id}`);
             await fetchPreviousReport();
         } catch (error) {
             console.error('Error:', error);
